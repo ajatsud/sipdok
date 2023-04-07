@@ -23,7 +23,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="six offset-by-three columns" style="background-color: #fff; margin-top: 30px; padding: 30px; border: 1px solid #ECECEC;">
+            <div class="six offset-by-three columns" style="background-color: transparent; margin-top: 30px;">
                 <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
                     <div><img src="/public/images/sipdok.png" alt="Sipdok" style="width: 100px; height: 100px;"></div>
                     <div><h1>Sipdok</h1></div>
