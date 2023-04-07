@@ -35,6 +35,7 @@ class router
         else
             $path = '/';
             
+        // user yang belum login hanya boleh lihat halama ini
         $white_list = [
             'login_page_view'    
         ];
