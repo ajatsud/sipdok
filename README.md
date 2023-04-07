@@ -1,13 +1,14 @@
-# Upload to github
+# Sipdok
 
-git init
+Aplikasi untuk Praktik Dokter mandiri
 
-git add README.md
+Masih dalam tahap pengembangan.
 
-git commit -m "first commit"
+Untuk push ke github :
 
-git branch -M master
-
-git remote add origin https://github.com/ajatsud/sipdok.git
-
-git push -u origin master
+- git init
+- git add README.md
+- git commit -m "first commit"
+- git branch -M master
+- git remote add origin https://github.com/ajatsud/sipdok.git
+- git push -u origin master
