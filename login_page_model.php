@@ -46,13 +46,15 @@ class login_page_model
             $rs = $st->fetch(PDO::FETCH_ASSOC);
             
             if($rs){
+
                 if(password_verify($password, $rs['password'])){
                     $_SESSION['username'] = $username;
                     header('location: /dashboard');
                     exit;
                 }else{
-                    return new self($this->pdo, ['Invalid user info']);
+                    return new self($this->pdo, ['Invalid user info'], $this->messages);
                 }
+
             }else{
                 return new self($this->pdo, ['Invalid user'], $this->messages);
             }
