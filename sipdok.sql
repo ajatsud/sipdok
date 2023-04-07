@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2023 at 02:12 AM
+-- Generation Time: Apr 07, 2023 at 02:15 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
+-- ok
 -- Table structure for table `pasien`
 --
 
@@ -59,7 +59,7 @@ CREATE TABLE `pendaftaran` (
 
 CREATE TABLE `periksa` (
   `id` varchar(12) NOT NULL,
-  `id_pendaftaran` varchar(23) NOT NULL,
+  `id_pendaftaran` varchar(12) NOT NULL,
   `anamnesa` varchar(100) DEFAULT NULL,
   `pemeriksaan` varchar(100) DEFAULT NULL,
   `diagnosa` varchar(100) DEFAULT NULL,
