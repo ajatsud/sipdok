@@ -13,9 +13,10 @@ include __DIR__ . '/lib/Render.php';
  * ([0-9a-zA-Z-]*)
  * ([0-9a-zA-Z-/\\s/]*) termasuk spasi
  */
- 
+
 Router::get('/', function (): void {
 	$pasien = new DatabaseTable(Database::connection(), 'pasien', ['id']);
+
 	/*
 	$pasien->insert([
 		'id' => 'xxx',
@@ -46,13 +47,10 @@ Router::get('/', function (): void {
 	else
 		echo 'no data';
 	*/
-	
+
 	Render::view('index/home', [
 		'test' => 'testing testing'
 	]);
-	
-	
-	
 });
 
 Router::get('/([0-9a-zA-Z-]*)', function (string $test): void {
