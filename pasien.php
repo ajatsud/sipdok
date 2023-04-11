@@ -15,9 +15,11 @@ include __DIR__ . '/lib/Render.php';
  */
 
 Router::get('/', function (): void {
-	Render::view('index/home', [
-		'test' => 'testing testing'
-	]);
+    $pasien = new DatabaseTable(Database::connection(), 'pasien', ['id']);
+    $pasiens = $pasien->findAll();
+    Render::view('pasien/list', [
+        'pasiens' => $pasiens
+    ]);
 });
 
 Router::dispatch();

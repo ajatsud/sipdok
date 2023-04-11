@@ -1,9 +1,9 @@
 <?php
 
 class Router {
-	
+
 	private static array $routes;
-	
+
 	private static function add(string $method, string $path, callable $callback): void {
 		self::$routes[] = [
 			'method' => $method,
@@ -11,15 +11,15 @@ class Router {
 			'callback' => $callback
 		];
 	}
-	
+
 	public static function get(string $path, callable $callback): void {
 		self::add('GET', $path, $callback);
 	}
-	
+
 	public static function post(string $path, callable $callback): void {
 		self::add('POST', $path, $callback);
 	}
-	
+
 	public static function dispatch(): void {
 		$method = $_SERVER['REQUEST_METHOD'];
 		$path   = $_SERVER['PATH_INFO'] ?? '/';

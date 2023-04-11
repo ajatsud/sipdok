@@ -34,6 +34,20 @@ class DatabaseTable {
 		return [];
 	}
 
+	public function findAll(): array {
+		$sql = 'SELECT * FROM ' . $this->table;
+		try {
+			$statement = $this->pdo->prepare($sql);
+			$statement->execute();
+			$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+			if ($result)
+				return $result;
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+		return [];
+	}
+
 	public function search(array $param): array {
 		$sql = 'SELECT * FROM ' . $this->table;
 		$i = 0;
@@ -83,12 +97,16 @@ class DatabaseTable {
 		$sql  = rtrim($sql, ',');
 		$sql .= ')';
 		try {
+			$this->pdo->beginTransaction();
 			$statement = $this->pdo->prepare($sql);
-			return $statement->execute($param);
+			$statement->execute($param);
+			$this->pdo->commit();
 		} catch (PDOException $e) {
+			$this->pdo->rollBack();
 			echo $e->getMessage();
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public function update(array $param): bool {
@@ -113,12 +131,16 @@ class DatabaseTable {
 				$sql .= '   AND ' . $value . ' = :' . $value;
 		}
 		try {
+			$this->pdo->beginTransaction();
 			$statement = $this->pdo->prepare($sql);
-			return $statement->execute($param);
+			$statement->execute($param);
+			$this->pdo->commit();
 		} catch (PDOException $e) {
+			$this->pdo->rollBack();
 			echo $e->getMessage();
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public function delete(array $param): bool {
@@ -132,11 +154,15 @@ class DatabaseTable {
 				$sql .= '   AND ' . $value . ' = :' . $value;
 		}
 		try {
+			$this->pdo->beginTransaction();
 			$statement = $this->pdo->prepare($sql);
-			return $statement->execute($param);
+			$statement->execute($param);
+			$this->pdo->commit();
 		} catch (PDOException $e) {
+			$this->pdo->rollBack();
 			echo $e->getMessage();
+			return false;
 		}
-		return false;
+		return true;
 	}
 }
