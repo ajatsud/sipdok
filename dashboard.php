@@ -9,6 +9,7 @@
 </head>
 
 <body>
+
     <div class="container">
         <div class="row">
             <div class="twelve columns">
@@ -18,6 +19,7 @@
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

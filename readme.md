@@ -1,6 +1,8 @@
-# Cara upload ke github
+# Sipdok
 
-Test update README.md lagi
+Sistem Informasi Praktik Dokter.
+
+Cara update ke Github
 
 - git init
 - git add README.md

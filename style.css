@@ -171,6 +171,10 @@
     }
 }
 
+html {
+    font-size: 16px;
+}
+
 body {
     color: #222;
 }

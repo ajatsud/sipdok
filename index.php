@@ -105,13 +105,15 @@ function render($data = [])
 
 get("/", function ()
 {
-	global $mysqli;
-
 	if (!isset($_SESSION["USERNAME"]))
 	{
 		header("Location: /user/login");
 		exit;
 	}
+
+	// transaction test
+
+	global $mysqli;
 
 	$errors = [];
 
@@ -119,7 +121,7 @@ get("/", function ()
 	{
 		$ret1 = mysqli_query($mysqli, sprintf(
 			"insert into user (username, password) values ('%s', '%s')",
-			mysqli_real_escape_string($mysqli, "admin3"),
+			mysqli_real_escape_string($mysqli, "ajat"),
 			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
 
@@ -130,7 +132,7 @@ get("/", function ()
 
 		$ret2 = mysqli_query($mysqli, sprintf(
 			"insert into user (username, password) values ('%s', '%s')",
-			mysqli_real_escape_string($mysqli, "admin2"),
+			mysqli_real_escape_string($mysqli, "admin"),
 			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
 
@@ -142,10 +144,14 @@ get("/", function ()
 		if ($ret1 && $ret2)
 		{
 			mysqli_commit($mysqli);
+
+			echo "success commit";
 		}
 		else
 		{
 			mysqli_rollback($mysqli);
+
+			echo "failed rollback";
 		}
 	}
 
@@ -153,10 +159,16 @@ get("/", function ()
 
 	// sprintf ( string:s, int:d, float:f )
 	// result ( on failed:false, success select:mysqli_object, success:true
+
 	$result = mysqli_query($mysqli, sprintf(
 		"select * from user where username like '%s'",
 		mysqli_real_escape_string($mysqli, "%")
 	));
+
+	if (mysqli_errno($mysqli))
+	{
+		$errors[] = mysqli_error($mysqli);
+	}
 
 	if ($result)
 	{
@@ -165,7 +177,8 @@ get("/", function ()
 			while ($row = mysqli_fetch_assoc($result))
 			{
 				// printf ( string:s, int:d, float:f )
-				//printf('%s %s <br>', $row['username'], $row['password']);
+				// printf('%s %s <br>', $row['username'], $row['password']);
+
 				$users[] = [
 					"username" => $row["username"],
 					"password" => $row["password"]
@@ -173,20 +186,12 @@ get("/", function ()
 			}
 		}
 	}
-	else
-	{
-		if (mysqli_errno($mysqli))
-		{
-			$errors[] = mysqli_error($mysqli);
-		}
-	}
 
-	return [
-		"view" => "index_view",
-		"title" => "Sipdok",
-		"errors" => $errors,
-		"users" => $users
-	];
+	echo "<pre>";
+	var_dump($users, $errors);
+	echo "</pre>";
+
+	exit;
 });
 
 get("/user/login", function ()
