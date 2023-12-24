@@ -1,14 +1,7 @@
 # Sipdok
 
-Sistem Informasi Praktik Dokter.
+Sistem Informasi Praktik Dokter
 
-Cara update ke Github
+Aplikasi ini dibuat dengan tujuan agar bisa digunakan oleh Dokter yang membuka praktik mandiri, khususnya yang berada di kampung-kampung sehingga dapat membantu dan memudahkan proses pencatatan rekam medis.
 
-- git init
-- git add README.md
-- git commit -m "first commit"
-- git branch -M master
-- git remote add origin https://github.com/ajatsud/sipdok.git
-- git push -u origin master
-  atau
-- git push -u origin master --force
+Akan ada 2 versi dari aplikasi ini, gratis dan premium. Untuk versi premium akan mendapatkan support dari developer dan bisa request untuk customize.
