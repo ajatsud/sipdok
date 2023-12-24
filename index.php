@@ -17,6 +17,9 @@ if (mysqli_errno($mysqli)) {
 	exit(mysqli_error($mysqli));
 }
 
+session_start();
+
+//echo password_hash("admin", PASSWORD_DEFAULT);
 // todo ganti semua kutip tunggal dengan ganda, kecuali didalam query
 
 $routes = [];
@@ -79,6 +82,10 @@ get('/', function() {
 
 	global $mysqli;
 
+	if (!isset($_SESSION['USERNAME'])) {
+		header('Location: /user/login');
+		exit;
+	}
 
 	$errors = [];
 
@@ -144,6 +151,129 @@ get('/', function() {
 		'errors' => $errors,
 		'users' => $users
 	];
+});
+
+get('/user/login', function() {
+
+	if (isset($_SESSION["username"])) {
+		header("Location: /dashboard");
+		exit;
+	}
+
+	$inputs = [];
+	$errors = [];
+
+	if (isset($_SESSION["inputs"])) {
+		$inputs = $_SESSION["inputs"];
+		unset($_SESSION["inputs"]);
+	}
+
+	if (isset($_SESSION["errors"])) {
+		$errors = $_SESSION["errors"];
+		unset($_SESSION["errors"]);
+	}
+
+	return [
+		'view' =>'login_view',
+		'title' => 'Login',
+		"inputs" => $inputs,
+		"errors" => $errors
+	];
+});
+
+post("/user/login/auth", function() {
+
+	global $mysqli;
+
+	if (isset($_SESSION["username"])) {
+		header("Location: /dashboard");
+		exit;
+	}
+
+	$inputs = [];
+	$errors = [];
+
+	if (isset($_POST["username"])) {
+		$username = htmlentities(strip_tags(trim($_POST["username"])));
+		if (strlen($username) > 0) {
+			$inputs["username"] = $username;
+		} else {
+			$errors["username"] = "Username tidak boleh kosong";
+		}
+	} else {
+		$errors["username"] = "Username undefined";
+	}
+
+
+	if (isset($_POST["password"])) {
+		$password = htmlentities(strip_tags(trim($_POST["password"])));
+		if (strlen($password) > 0) {
+			$inputs["password"] = $password;
+		} else {
+			$errors["password"] = "Password tidak boleh kosong";
+		}
+	} else {
+		$errors["password"] = "Password undefined";
+	}
+
+
+	if (count($errors) == 0) {
+		$result = mysqli_query($mysqli, sprintf(
+			"select * from user where username = '%s'",
+			mysqli_real_escape_string($mysqli, $inputs["username"])
+		));
+
+		if (mysqli_errno($mysqli)) {
+			$errors[] = mysqli_error($mysqli);
+		}
+
+		if ($result) {
+			if (mysqli_num_rows($result) == 1) {
+				$user = mysqli_fetch_assoc($result);
+				$password_hash = $user["password"];
+				if (password_verify($inputs["password"], $password_hash)) {
+					$_SESSION["username"] = $inputs["username"];
+					header("Location: /dashboard");
+					exit;
+				} else {
+					$errors["password"] = "Password salah";
+				}
+			} else {
+				$errors["username"] = "Username " . $inputs["username"] . " tidak terdaftar";
+			}
+		}
+	}
+
+	$_SESSION["inputs"] = $inputs;
+	$_SESSION["errors"] = $errors;
+
+	header("Location: /user/login", true, 303);
+	exit;
+});
+
+get("/user/logout", function() {
+
+	if (isset($_SESSION["username"])) {
+		unset($_SESSION["username"]);
+	}
+
+	$_SESSION = [];
+
+	session_destroy();
+
+	header("Location: /user/login");
+	exit;
+});
+
+get("/dashboard", function() {
+	if (!isset($_SESSION["username"])) {
+		header("Location: /user/login");
+		exit;
+	}
+
+	echo "selamat datang <a href='/user/logout'>Logout</a>";
+
+	return [];
 });
 
 render(dispatch());
