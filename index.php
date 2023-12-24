@@ -86,8 +86,7 @@ function dispatch()
 
 	return [
 		"view" => "notfound",
-		"title" => "404",
-		"menu" => "dashboard"
+		"title" => "404"
 	];
 }
 
