@@ -1,6 +1,6 @@
 # Cara upload ke github
 
-ok
+Test update README.md
 
 - git init
 - git add README.md
