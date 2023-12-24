@@ -1,8 +1,8 @@
 <?php
 
+//rapiin
+
 date_default_timezone_set("Asia/Jakarta");
-
-
 
 mysqli_report(MYSQLI_REPORT_OFF);
 
@@ -25,78 +25,83 @@ session_start();
 
 $routes = [];
 
-function route($method, $path, $cb) {
-	
+function route($method, $path, $cb)
+{
+
 	global $routes;
-	
+
 	$routes[] = [
-        "method" => $method,
-        "path" => $path,
-        "cb" => $cb
-    ];
+		"method" => $method,
+		"path" => $path,
+		"cb" => $cb
+	];
 }
 
-function get($path, $cb) {
-	
+function get($path, $cb)
+{
+
 	route("GET", $path, $cb);
 }
 
-function post($path, $cb) {
-	
+function post($path, $cb)
+{
+
 	route("POST", $path, $cb);
 }
 
-function dispatch() {
-	
+function dispatch()
+{
+
 	global $routes;
 
-    $method = strtoupper($_SERVER["REQUEST_METHOD"]);
-	
+	$method = strtoupper($_SERVER["REQUEST_METHOD"]);
+
 	if (isset($_SERVER["PATH_INFO"])) {
-        $path = rtrim($_SERVER["PATH_INFO"], "/");
-    } else {
-        $path = "/";
+		$path = rtrim($_SERVER["PATH_INFO"], "/");
+	} else {
+		$path = "/";
 	}
 
-    foreach ($routes as $route) {
-		
+	foreach ($routes as $route) {
+
 		if ($route["method"] !== $method) {
-            continue;
+			continue;
 		}
 
-        $pattern = preg_replace("/\/:([^\/]+)/", "/(?P<$1>[^/]+)", $route["path"]);
-		
+		$pattern = preg_replace("/\/:([^\/]+)/", "/(?P<$1>[^/]+)", $route["path"]);
+
 		if (preg_match("#^" . $pattern . "$#", $path, $matches)) {
-			
+
 			array_shift($matches);
 
-            if (count($matches) > 0) {
-                $params = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
-                return call_user_func_array($route["cb"], $params);
-            } else {
-                return call_user_func($route["cb"]);
-            }
-        }
-    }
+			if (count($matches) > 0) {
+				$params = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
+				return call_user_func_array($route["cb"], $params);
+			} else {
+				return call_user_func($route["cb"]);
+			}
+		}
+	}
 }
 
-function render($data = []) {
+function render($data = [])
+{
 
-    foreach ($data as $k => $v) {
-        $$k = $v;
+	foreach ($data as $k => $v) {
+		$$k = $v;
 	}
 
 	if (isset($view)) {
 
 		$file = __DIR__ . DIRECTORY_SEPARATOR . $view . ".php";
 
-        if (file_exists($file)) {
-            include $file;
-        }
-    }
+		if (file_exists($file)) {
+			include $file;
+		}
+	}
 }
 
-get("/", function() {
+get("/", function () {
 
 	global $mysqli;
 
@@ -109,16 +114,18 @@ get("/", function() {
 
 	if (mysqli_autocommit($mysqli, false)) {
 
-		$ret1 = mysqli_query($mysqli, sprintf("insert into user (username, password) values ('%s', '%s')",
+		$ret1 = mysqli_query($mysqli, sprintf(
+			"insert into user (username, password) values ('%s', '%s')",
 			mysqli_real_escape_string($mysqli, "admin3"),
 			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
-	
+
 		if (mysqli_errno($mysqli)) {
 			$errors[] = mysqli_error($mysqli);
 		}
 
-		$ret2 = mysqli_query($mysqli, sprintf("insert into user (username, password) values ('%s', '%s')",
+		$ret2 = mysqli_query($mysqli, sprintf(
+			"insert into user (username, password) values ('%s', '%s')",
 			mysqli_real_escape_string($mysqli, "admin2"),
 			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
@@ -139,7 +146,8 @@ get("/", function() {
 
 	// sprintf ( string:s, int:d, float:f )
 	// result ( on failed:false, success select:mysqli_object, success:true
-	$result = mysqli_query($mysqli, sprintf("select * from user where username like '%s'",
+	$result = mysqli_query($mysqli, sprintf(
+		"select * from user where username like '%s'",
 		mysqli_real_escape_string($mysqli, "%")
 	));
 
@@ -168,7 +176,7 @@ get("/", function() {
 	];
 });
 
-get("/user/login", function() {
+get("/user/login", function () {
 
 	if (isset($_SESSION["username"])) {
 		header("Location: /dashboard");
@@ -196,7 +204,7 @@ get("/user/login", function() {
 	];
 });
 
-post("/user/login/auth", function() {
+post("/user/login/auth", function () {
 
 	if (isset($_SESSION["username"])) {
 		header("Location: /dashboard");
@@ -267,7 +275,7 @@ post("/user/login/auth", function() {
 	exit;
 });
 
-get("/user/logout", function() {
+get("/user/logout", function () {
 
 	if (isset($_SESSION["username"])) {
 		unset($_SESSION["username"]);
@@ -281,7 +289,7 @@ get("/user/logout", function() {
 	exit;
 });
 
-get("/dashboard", function() {
+get("/dashboard", function () {
 
 	if (!isset($_SESSION["username"])) {
 		header("Location: /user/login");
