@@ -171,7 +171,50 @@
     }
 }
 
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.logo {
+    margin: 0;
+    padding: 0;
+    text-shadow: 1px 3px #eee;
+    letter-spacing: 1.2px;
+}
+
+.logo-sip {
+    color: #009879;
+}
+
+.logo-dok {
+    color: #3684AB;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.active {
+    color: inherit;
+}
+
 html {
+    font-family: system-ui, sans-serif;
     font-size: 16px;
 }
 
@@ -179,13 +222,12 @@ body {
     color: #222;
 }
 
-h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    font-weight: 300;
+    font-weight: 400;
 }
 
 p {

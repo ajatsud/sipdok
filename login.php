@@ -12,8 +12,16 @@
 
 	<div class="container">
 		<div class="row">
+			<div class="four offset-by-four columns header">
+				<h1 class="logo">
+					<span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
+					<img class="logo-img" src="/logo.png" alt="Sipdok">
+				</h1>
+			</div>
+		</div>
+		<div class="row">
 			<div class="four offset-by-four columns">
-				<h3>Login</h3>
+				<h2>Login</h2>
 				<?php if (count($errors) > 0) : ?>
 					<?php foreach ($errors as $key => $error) : ?>
 						<?php if (is_string($key)) : ?>

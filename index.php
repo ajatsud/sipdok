@@ -86,7 +86,8 @@ function dispatch()
 
 	return [
 		"view" => "notfound",
-		"title" => "404"
+		"title" => "404",
+		"menu" => "dashboard"
 	];
 }
 
@@ -349,7 +350,8 @@ get("/dashboard", function ()
 
 	return [
 		"view" => "dashboard",
-		"title" => "Dashboard"
+		"title" => "Dashboard",
+		"menu" => "dashboard"
 	];
 });
 

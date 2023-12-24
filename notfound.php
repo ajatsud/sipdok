@@ -12,10 +12,17 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="four offset-by-four columns">
-				<h3>404</h3>
-				<p>Page not found</p>
-				<p>&larr; <a href="/">Kembali</a></p>
+			<div class="twelve columns header">
+				<h1 class="logo">
+					<span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
+					<img class="logo-img" src="/logo.png" alt="Sipdok">
+				</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="twelve columns">
+				<h2>404</h2>
+				<p>Halaman tidak anda cari tidak ditemukan. <a href="/">Kembali</a></p>
 			</div>
 		</div>
 	</div>
