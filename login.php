@@ -9,10 +9,10 @@
 </head>
 
 <body>
-
 	<div class="container">
 		<div class="row">
 			<div class="four offset-by-four columns">
+
 				<h3>Login</h3>
 
 				<?php if (count($errors) > 0) : ?>
@@ -25,27 +25,23 @@
 				<?php endif; ?>
 
 				<form method="post" action="/user/login/auth">
-
 					<label for="username">Username</label>
 					<input type="text" name="username" value="<?= $inputs["username"] ?? "" ?>" placeholder="Username" class="u-full-width">
 					<?php if (isset($errors["username"])) : ?>
 						<p style="color: red;"><?= $errors["username"] ?? "" ?></p>
 					<?php endif; ?>
-
 					<label for="password">Password</label>
 					<input type="password" name="password" value="<?= $inputs["password"] ?? "" ?>" placeholder="Password" class="u-full-width">
 					<?php if (isset($errors["password"])) : ?>
 						<p style="color: red;"><?= $errors["password"] ?? "" ?></p>
 					<?php endif; ?>
-
 					<br>
 					<input type="submit">
-
 				</form>
+
 			</div>
 		</div>
 	</div>
-
 </body>
 
 </html>
