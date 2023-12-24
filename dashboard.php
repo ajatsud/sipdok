@@ -32,7 +32,7 @@
         <div class="row">
             <div class="twelve columns">
                 <h2>Dashboard</h2>
-                <p>Selamat datang <?= $_SESSION["username"] ?></p>
+                <p>Selamat datang <strong><?= $_SESSION["username"] ?></strong></p>
             </div>
         </div>
     </div>

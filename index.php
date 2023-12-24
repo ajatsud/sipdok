@@ -108,15 +108,20 @@ function render($data = [])
 	}
 }
 
-get("/", function ()
+function login_required()
 {
-	if (!isset($_SESSION["USERNAME"]))
+	if (!isset($_SESSION["username"]))
 	{
 		header("Location: /user/login");
 		exit;
 	}
+}
 
-	// transaction test
+get("/", function ()
+{
+	login_required();
+
+	// test
 
 	global $mysqli;
 
@@ -341,11 +346,7 @@ get("/user/logout", function ()
 
 get("/dashboard", function ()
 {
-	if (!isset($_SESSION["username"]))
-	{
-		header("Location: /user/login");
-		exit;
-	}
+	login_required();
 
 	return [
 		"view" => "dashboard",
