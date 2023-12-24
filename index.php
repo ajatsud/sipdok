@@ -6,13 +6,15 @@ mysqli_report(MYSQLI_REPORT_OFF);
 
 $mysqli = mysqli_connect("localhost", "root", "", "sipdok", 3306);
 
-if (mysqli_connect_errno()) {
+if (mysqli_connect_errno())
+{
 	exit(mysqli_connect_error());
 }
 
 mysqli_set_charset($mysqli, "utf8mb4");
 
-if (mysqli_errno($mysqli)) {
+if (mysqli_errno($mysqli))
+{
 	exit(mysqli_error($mysqli));
 }
 
@@ -33,45 +35,49 @@ function route($method, $path, $cb)
 
 function get($path, $cb)
 {
-
 	route("GET", $path, $cb);
 }
 
 function post($path, $cb)
 {
-
 	route("POST", $path, $cb);
 }
 
 function dispatch()
 {
-
 	global $routes;
 
 	$method = strtoupper($_SERVER["REQUEST_METHOD"]);
 
-	if (isset($_SERVER["PATH_INFO"])) {
+	if (isset($_SERVER["PATH_INFO"]))
+	{
 		$path = rtrim($_SERVER["PATH_INFO"], "/");
-	} else {
+	}
+	else
+	{
 		$path = "/";
 	}
 
-	foreach ($routes as $route) {
-
-		if ($route["method"] !== $method) {
+	foreach ($routes as $route)
+	{
+		if ($route["method"] !== $method)
+		{
 			continue;
 		}
 
 		$pattern = preg_replace("/\/:([^\/]+)/", "/(?P<$1>[^/]+)", $route["path"]);
 
-		if (preg_match("#^" . $pattern . "$#", $path, $matches)) {
-
+		if (preg_match("#^" . $pattern . "$#", $path, $matches))
+		{
 			array_shift($matches);
 
-			if (count($matches) > 0) {
+			if (count($matches) > 0)
+			{
 				$params = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
 				return call_user_func_array($route["cb"], $params);
-			} else {
+			}
+			else
+			{
 				return call_user_func($route["cb"]);
 			}
 		}
@@ -80,41 +86,44 @@ function dispatch()
 
 function render($data = [])
 {
-
-	foreach ($data as $k => $v) {
+	foreach ($data as $k => $v)
+	{
 		$$k = $v;
 	}
 
-	if (isset($view)) {
-
+	if (isset($view))
+	{
 		$file = __DIR__ . DIRECTORY_SEPARATOR . $view . ".php";
 
-		if (file_exists($file)) {
+		if (file_exists($file))
+		{
 			include $file;
 		}
 	}
 }
 
-get("/", function () {
-
+get("/", function ()
+{
 	global $mysqli;
 
-	if (!isset($_SESSION["USERNAME"])) {
-		header('Location: /user/login');
+	if (!isset($_SESSION["USERNAME"]))
+	{
+		header("Location: /user/login");
 		exit;
 	}
 
 	$errors = [];
 
-	if (mysqli_autocommit($mysqli, false)) {
-
+	if (mysqli_autocommit($mysqli, false))
+	{
 		$ret1 = mysqli_query($mysqli, sprintf(
 			"insert into user (username, password) values ('%s', '%s')",
 			mysqli_real_escape_string($mysqli, "admin3"),
 			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
 
-		if (mysqli_errno($mysqli)) {
+		if (mysqli_errno($mysqli))
+		{
 			$errors[] = mysqli_error($mysqli);
 		}
 
@@ -124,17 +133,20 @@ get("/", function () {
 			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
 
-		if (mysqli_errno($mysqli)) {
+		if (mysqli_errno($mysqli))
+		{
 			$errors[] = mysqli_error($mysqli);
 		}
 
-		if ($ret1 && $ret2) {
+		if ($ret1 && $ret2)
+		{
 			mysqli_commit($mysqli);
-		} else {
+		}
+		else
+		{
 			mysqli_rollback($mysqli);
 		}
 	}
-
 
 	$users = [];
 
@@ -145,9 +157,12 @@ get("/", function () {
 		mysqli_real_escape_string($mysqli, "%")
 	));
 
-	if ($result) {
-		if (mysqli_num_rows($result) > 0) {
-			while ($row = mysqli_fetch_assoc($result)) {
+	if ($result)
+	{
+		if (mysqli_num_rows($result) > 0)
+		{
+			while ($row = mysqli_fetch_assoc($result))
+			{
 				// printf ( string:s, int:d, float:f )
 				//printf('%s %s <br>', $row['username'], $row['password']);
 				$users[] = [
@@ -156,9 +171,12 @@ get("/", function () {
 				];
 			}
 		}
-	} else {
-		if (mysqli_errno($mysqli)) {
-			$errors[] = mysqli_errors($mysqli);
+	}
+	else
+	{
+		if (mysqli_errno($mysqli))
+		{
+			$errors[] = mysqli_error($mysqli);
 		}
 	}
 
@@ -170,9 +188,10 @@ get("/", function () {
 	];
 });
 
-get("/user/login", function () {
-
-	if (isset($_SESSION["username"])) {
+get("/user/login", function ()
+{
+	if (isset($_SESSION["username"]))
+	{
 		header("Location: /dashboard");
 		exit;
 	}
@@ -180,12 +199,14 @@ get("/user/login", function () {
 	$inputs = [];
 	$errors = [];
 
-	if (isset($_SESSION["inputs"])) {
+	if (isset($_SESSION["inputs"]))
+	{
 		$inputs = $_SESSION["inputs"];
 		unset($_SESSION["inputs"]);
 	}
 
-	if (isset($_SESSION["errors"])) {
+	if (isset($_SESSION["errors"]))
+	{
 		$errors = $_SESSION["errors"];
 		unset($_SESSION["errors"]);
 	}
@@ -198,9 +219,11 @@ get("/user/login", function () {
 	];
 });
 
-post("/user/login/auth", function () {
+post("/user/login/auth", function ()
+{
 
-	if (isset($_SESSION["username"])) {
+	if (isset($_SESSION["username"]))
+	{
 		header("Location: /dashboard");
 		exit;
 	}
@@ -210,53 +233,76 @@ post("/user/login/auth", function () {
 	$inputs = [];
 	$errors = [];
 
-	if (isset($_POST["username"])) {
+	if (isset($_POST["username"]))
+	{
 		$username = htmlentities(strip_tags(trim($_POST["username"])));
-		if (strlen($username) > 0) {
+
+		if (strlen($username) > 0)
+		{
 			$inputs["username"] = $username;
-		} else {
+		}
+		else
+		{
 			$errors["username"] = "Username tidak boleh kosong";
 		}
-	} else {
+	}
+	else
+	{
 		$errors["username"] = "Username undefined";
 	}
 
 
-	if (isset($_POST["password"])) {
+	if (isset($_POST["password"]))
+	{
 		$password = htmlentities(strip_tags(trim($_POST["password"])));
-		if (strlen($password) > 0) {
+
+		if (strlen($password) > 0)
+		{
 			$inputs["password"] = $password;
-		} else {
+		}
+		else
+		{
 			$errors["password"] = "Password tidak boleh kosong";
 		}
-	} else {
+	}
+	else
+	{
 		$errors["password"] = "Password undefined";
 	}
 
 
-	if (count($errors) == 0) {
-
+	if (count($errors) == 0)
+	{
 		$result = mysqli_query($mysqli, sprintf(
 			"select * from user where username = '%s'",
 			mysqli_real_escape_string($mysqli, $inputs["username"])
 		));
 
-		if (mysqli_errno($mysqli)) {
+		if (mysqli_errno($mysqli))
+		{
 			$errors[] = mysqli_error($mysqli);
 		}
 
-		if ($result) {
-			if (mysqli_num_rows($result) == 1) {
+		if ($result)
+		{
+			if (mysqli_num_rows($result) == 1)
+			{
 				$user = mysqli_fetch_assoc($result);
 				$password_hash = $user["password"];
-				if (password_verify($inputs["password"], $password_hash)) {
+
+				if (password_verify($inputs["password"], $password_hash))
+				{
 					$_SESSION["username"] = $inputs["username"];
 					header("Location: /dashboard");
 					exit;
-				} else {
+				}
+				else
+				{
 					$errors["password"] = "Password salah";
 				}
-			} else {
+			}
+			else
+			{
 				$errors["username"] = "Username " . $inputs["username"] . " tidak terdaftar";
 			}
 		}
@@ -269,9 +315,10 @@ post("/user/login/auth", function () {
 	exit;
 });
 
-get("/user/logout", function () {
-
-	if (isset($_SESSION["username"])) {
+get("/user/logout", function ()
+{
+	if (isset($_SESSION["username"]))
+	{
 		unset($_SESSION["username"]);
 	}
 
@@ -283,9 +330,10 @@ get("/user/logout", function () {
 	exit;
 });
 
-get("/dashboard", function () {
-
-	if (!isset($_SESSION["username"])) {
+get("/dashboard", function ()
+{
+	if (!isset($_SESSION["username"]))
+	{
 		header("Location: /user/login");
 		exit;
 	}
