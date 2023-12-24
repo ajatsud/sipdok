@@ -221,7 +221,6 @@ get("/user/login", function ()
 
 post("/user/login/auth", function ()
 {
-
 	if (isset($_SESSION["username"]))
 	{
 		header("Location: /dashboard");
