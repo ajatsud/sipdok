@@ -1,7 +1,8 @@
 <?php
-// test tambahan di update
 
 date_default_timezone_set("Asia/Jakarta");
+
+
 
 mysqli_report(MYSQLI_REPORT_OFF);
 
@@ -17,86 +18,100 @@ if (mysqli_errno($mysqli)) {
 	exit(mysqli_error($mysqli));
 }
 
+
 session_start();
 
-//echo password_hash("admin", PASSWORD_DEFAULT);
-// todo ganti semua kutip tunggal dengan ganda, kecuali didalam query
+
 
 $routes = [];
 
 function route($method, $path, $cb) {
-    global $routes;
-    $routes[] = [
-        'method' => $method,
-        'path' => $path,
-        'cb' => $cb
+	
+	global $routes;
+	
+	$routes[] = [
+        "method" => $method,
+        "path" => $path,
+        "cb" => $cb
     ];
 }
 
 function get($path, $cb) {
-    route('GET', $path, $cb);
+	
+	route("GET", $path, $cb);
 }
 
 function post($path, $cb) {
-    route('POST', $path, $cb);
+	
+	route("POST", $path, $cb);
 }
 
 function dispatch() {
-    global $routes;
-    $method = strtoupper($_SERVER['REQUEST_METHOD']);
-    if (isset($_SERVER['PATH_INFO'])) {
-        $path = rtrim($_SERVER['PATH_INFO'], '/');
+	
+	global $routes;
+
+    $method = strtoupper($_SERVER["REQUEST_METHOD"]);
+	
+	if (isset($_SERVER["PATH_INFO"])) {
+        $path = rtrim($_SERVER["PATH_INFO"], "/");
     } else {
-        $path = '/';
-    }
+        $path = "/";
+	}
+
     foreach ($routes as $route) {
-        if ($route['method'] !== $method) {
+		
+		if ($route["method"] !== $method) {
             continue;
-        }
-        $pattern = preg_replace('/\/:([^\/]+)/', '/(?P<$1>[^/]+)', $route['path']);
-        if (preg_match('#^' . $pattern . '$#', $path, $matches)) {
-            array_shift($matches);
+		}
+
+        $pattern = preg_replace("/\/:([^\/]+)/", "/(?P<$1>[^/]+)", $route["path"]);
+		
+		if (preg_match("#^" . $pattern . "$#", $path, $matches)) {
+			
+			array_shift($matches);
+
             if (count($matches) > 0) {
-                $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-                return call_user_func_array($route['cb'], $params);
+                $params = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
+                return call_user_func_array($route["cb"], $params);
             } else {
-                return call_user_func($route['cb']);
+                return call_user_func($route["cb"]);
             }
         }
     }
 }
 
 function render($data = []) {
+
     foreach ($data as $k => $v) {
         $$k = $v;
-    }
-    if (isset($view)) {
-        $file = __DIR__ . DIRECTORY_SEPARATOR . $view . '.php';
+	}
+
+	if (isset($view)) {
+
+		$file = __DIR__ . DIRECTORY_SEPARATOR . $view . ".php";
+
         if (file_exists($file)) {
             include $file;
         }
     }
 }
 
-get('/', function() {
+get("/", function() {
 
 	global $mysqli;
 
-	if (!isset($_SESSION['USERNAME'])) {
+	if (!isset($_SESSION["USERNAME"])) {
 		header('Location: /user/login');
 		exit;
 	}
 
 	$errors = [];
 
-	// test insert
 	if (mysqli_autocommit($mysqli, false)) {
 
-		//$data = htmlentities(strip_tags(trim('datax')));
-	
 		$ret1 = mysqli_query($mysqli, sprintf("insert into user (username, password) values ('%s', '%s')",
-			mysqli_real_escape_string($mysqli, 'admin3'),
-			mysqli_real_escape_string($mysqli, password_hash('test', PASSWORD_DEFAULT))
+			mysqli_real_escape_string($mysqli, "admin3"),
+			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
 	
 		if (mysqli_errno($mysqli)) {
@@ -104,8 +119,8 @@ get('/', function() {
 		}
 
 		$ret2 = mysqli_query($mysqli, sprintf("insert into user (username, password) values ('%s', '%s')",
-			mysqli_real_escape_string($mysqli, 'admin2'),
-			mysqli_real_escape_string($mysqli, password_hash('test', PASSWORD_DEFAULT))
+			mysqli_real_escape_string($mysqli, "admin2"),
+			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
 		));
 
 		if (mysqli_errno($mysqli)) {
@@ -125,7 +140,7 @@ get('/', function() {
 	// sprintf ( string:s, int:d, float:f )
 	// result ( on failed:false, success select:mysqli_object, success:true
 	$result = mysqli_query($mysqli, sprintf("select * from user where username like '%s'",
-		mysqli_real_escape_string($mysqli, '%')
+		mysqli_real_escape_string($mysqli, "%")
 	));
 
 	if ($result) {
@@ -134,8 +149,8 @@ get('/', function() {
 				// printf ( string:s, int:d, float:f )
 				//printf('%s %s <br>', $row['username'], $row['password']);
 				$users[] = [
-					'username' => $row['username'],
-					'password' => $row['password']
+					"username" => $row["username"],
+					"password" => $row["password"]
 				];
 			}
 		}
@@ -146,14 +161,14 @@ get('/', function() {
 	}
 
 	return [
-		'view' => 'index_view',
-		'title' => 'Sipdok',
-		'errors' => $errors,
-		'users' => $users
+		"view" => "index_view",
+		"title" => "Sipdok",
+		"errors" => $errors,
+		"users" => $users
 	];
 });
 
-get('/user/login', function() {
+get("/user/login", function() {
 
 	if (isset($_SESSION["username"])) {
 		header("Location: /dashboard");
@@ -174,8 +189,8 @@ get('/user/login', function() {
 	}
 
 	return [
-		'view' =>'login_view',
-		'title' => 'Login',
+		"view" => "login",
+		"title" => "Login",
 		"inputs" => $inputs,
 		"errors" => $errors
 	];
@@ -183,12 +198,12 @@ get('/user/login', function() {
 
 post("/user/login/auth", function() {
 
-	global $mysqli;
-
 	if (isset($_SESSION["username"])) {
 		header("Location: /dashboard");
 		exit;
 	}
+
+	global $mysqli;
 
 	$inputs = [];
 	$errors = [];
@@ -218,6 +233,7 @@ post("/user/login/auth", function() {
 
 
 	if (count($errors) == 0) {
+
 		$result = mysqli_query($mysqli, sprintf(
 			"select * from user where username = '%s'",
 			mysqli_real_escape_string($mysqli, $inputs["username"])
@@ -266,14 +282,16 @@ get("/user/logout", function() {
 });
 
 get("/dashboard", function() {
+
 	if (!isset($_SESSION["username"])) {
 		header("Location: /user/login");
 		exit;
 	}
 
-	echo "selamat datang <a href='/user/logout'>Logout</a>";
-
-	return [];
+	return [
+		"view" => "dashboard",
+		"title" => "Dashboard"
+	];
 });
 
 render(dispatch());
