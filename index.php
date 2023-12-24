@@ -1,7 +1,5 @@
 <?php
 
-//rapiin
-
 date_default_timezone_set("Asia/Jakarta");
 
 mysqli_report(MYSQLI_REPORT_OFF);
@@ -18,16 +16,12 @@ if (mysqli_errno($mysqli)) {
 	exit(mysqli_error($mysqli));
 }
 
-
 session_start();
-
-
 
 $routes = [];
 
 function route($method, $path, $cb)
 {
-
 	global $routes;
 
 	$routes[] = [
