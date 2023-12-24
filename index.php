@@ -74,6 +74,7 @@ function dispatch()
 			if (count($matches) > 0)
 			{
 				$params = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
+
 				return call_user_func_array($route["cb"], $params);
 			}
 			else
