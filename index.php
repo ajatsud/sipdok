@@ -250,7 +250,6 @@ post("/user/login/auth", function ()
 		$errors["username"] = "Username undefined";
 	}
 
-
 	if (isset($_POST["password"]))
 	{
 		$password = htmlentities(strip_tags(trim($_POST["password"])));
