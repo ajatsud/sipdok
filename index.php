@@ -83,6 +83,11 @@ function dispatch()
 			}
 		}
 	}
+
+	return [
+		"view" => "notfound",
+		"title" => "404"
+	];
 }
 
 function render($data = [])
