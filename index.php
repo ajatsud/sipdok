@@ -108,18 +108,33 @@ function render($data = [])
 	}
 }
 
-function login_required()
+function is_login()
 {
-	if (!isset($_SESSION["username"]))
+	if (isset($_SESSION["username"]))
 	{
-		header("Location: /user/login");
-		exit;
+		return true;
 	}
+
+	return false;
+}
+
+function redirect_to($path)
+{
+	header("Location: " . $path);
+
+	exit;
 }
 
 get("/", function ()
 {
-	login_required();
+	if (is_login())
+	{
+		redirect_to("/dashboard");
+	}
+	else
+	{
+		redirect_to("/user/login");
+	}
 
 	// test
 
@@ -206,10 +221,9 @@ get("/", function ()
 
 get("/user/login", function ()
 {
-	if (isset($_SESSION["username"]))
+	if (is_login())
 	{
-		header("Location: /dashboard");
-		exit;
+		redirect_to("/dashboard");
 	}
 
 	$inputs = [];
@@ -237,10 +251,9 @@ get("/user/login", function ()
 
 post("/user/login/auth", function ()
 {
-	if (isset($_SESSION["username"]))
+	if (is_login())
 	{
-		header("Location: /dashboard");
-		exit;
+		redirect_to("/dashboard");
 	}
 
 	global $mysqli;
@@ -346,7 +359,10 @@ get("/user/logout", function ()
 
 get("/dashboard", function ()
 {
-	login_required();
+	if (!is_login())
+	{
+		redirect_to("/user/login");
+	}
 
 	return [
 		"view" => "dashboard",
