@@ -44,7 +44,7 @@ if (!isset($view)) {
 			<div class="twelve columns">
 				<div class="breadcrumb">
 					<h2>Pasien Entri</h2>
-					<p><a href="/pasien">Lihat Pasien</a></p>
+					<p><a href="/pasien" class="button">Pasien List</a></p>
 				</div>
 			</div>
 		</div>

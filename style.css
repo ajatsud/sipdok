@@ -233,6 +233,7 @@
     box-sizing: border-box;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     border-top: 3px solid #009879;
+    margin-bottom: 20px;
 }
 
 .table-container {
@@ -240,6 +241,7 @@
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     overflow-x: auto;
     border-top: 3px solid #009879;
+    margin-bottom: 20px;
 }
 
 html {
@@ -282,9 +284,6 @@ hr {
     border-top: 1px solid #E1E1E1;
 }
 
-table,
-ul,
-ol,
 form {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -426,8 +425,6 @@ input:read-only {
 table {
     border-collapse: collapse;
     font-family: inherit;
-    padding: 0;
-    margin: 0;
 }
 
 thead tr {

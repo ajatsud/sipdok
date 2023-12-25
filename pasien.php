@@ -43,7 +43,7 @@ if (!isset($view)) {
 			<div class="twelve columns">
 				<div class="breadcrumb">
 					<h2>Pasien List</h2>
-					<p><a href="/pasien/form">Tambah Pasien</a></p>
+					<p><a href="/pasien/form" class="button">Pasien Entri</a></p>
 				</div>
 				<?php if (count($errors) > 0) : ?>
 					<?php foreach ($errors as $key => $error) : ?>
