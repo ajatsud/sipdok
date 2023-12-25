@@ -24,7 +24,6 @@ if (!isset($view))
                 <div>
                     <h1 class="logo">
                         <span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
-                        <img class="logo-img" src="/logo.png" alt="Sipdok">
                     </h1>
                     <p class="logo-des"><small>Sistem Informasi Praktik Dokter</small></p>
                 </div>
