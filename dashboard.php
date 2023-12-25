@@ -21,10 +21,13 @@ if (!isset($view))
     <div class="container">
         <div class="row">
             <div class="twelve columns header">
-                <h1 class="logo">
-                    <span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
-                    <img class="logo-img" src="/logo.png" alt="Sipdok">
-                </h1>
+                <div>
+                    <h1 class="logo">
+                        <span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
+                        <img class="logo-img" src="/logo.png" alt="Sipdok">
+                    </h1>
+                    <p class="logo-des"><small>Sistem Informasi Praktik Dokter</small></p>
+                </div>
                 <div class="nav">
                     <a href="/" <?= ($menu == "dashboard") ? 'class="active"' : ""  ?>>Dashboard</a>
                     <a href="/pasien" <?= ($menu == "pasien") ? 'class="active"' : ""  ?>>Pasien</a>

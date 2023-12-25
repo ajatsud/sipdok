@@ -21,16 +21,19 @@ if (!isset($view))
 	<div class="container">
 		<div class="row">
 			<div class="twelve columns header">
-				<h1 class="logo">
-					<span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
-					<img class="logo-img" src="/logo.png" alt="Sipdok">
-				</h1>
+				<div>
+					<h1 class="logo">
+						<span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
+						<img class="logo-img" src="/logo.png" alt="Sipdok">
+					</h1>
+					<p class="logo-des"><small>Sistem Informasi Praktik Dokter</small></p>
+				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="twelve columns">
 				<h2>404</h2>
-				<p>Halaman tidak anda cari tidak ditemukan. <a href="/">Kembali</a></p>
+				<p>Halaman yang anda cari tidak ditemukan. &larr;<a href="/">Kembali</a></p>
 			</div>
 		</div>
 	</div>

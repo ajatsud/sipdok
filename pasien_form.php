@@ -42,44 +42,46 @@ if (!isset($view))
 				<h2>Pasien Entri</h2>
 			</div>
 		</div>
-		<form method="post" action="/pasien/save">
-			<div class="row">
-				<div class="six columns">
-					<label>ID</label>
-					<input type="text" name="id" placeholder="Otomatis" class="u-full-width" readonly>
-				</div>
-				<div class="six columns">
-					<label>Nama</label>
-					<input type="text" name="nama" placeholder="Nama" class="u-full-width">
-				</div>
-			</div>
-			<div class="row">
-				<div class="six columns">
-					<label>Jenkel</label>
-					<div style="display: flex; flex-direction: row; gap: 20px; justify-content: flex-start;">
-						<div style="display: flex; flex-direction: row;">
-							<div>Laki-Laki</div>
-							<div><input type="radio" name="jenkel" value="l" class="u-full-width"></div>
-						</div>
-						<div style="display: flex; flex-direction: row;">
-							<div>Perempuan</div>
-							<div><input type="radio" name="jenkel" value="p" class="u-full-width"></div>
-						</div>
+		<div class="box">
+			<form method="post" action="/pasien/save">
+				<div class="row">
+					<div class="six columns">
+						<label>ID</label>
+						<input type="text" name="id" placeholder="Otomatis" class="u-full-width" readonly>
+					</div>
+					<div class="six columns">
+						<label>Nama</label>
+						<input type="text" name="nama" placeholder="Nama" class="u-full-width">
 					</div>
 				</div>
-				<div class="six columns">
-					<label>Tanggal Lahir</label>
-					<input type="date" name="lahir" value="<?= date('Y-m-d') ?>" class="u-full-width">
+				<div class="row">
+					<div class="six columns">
+						<label>Jenkel</label>
+						<div style="display: flex; flex-direction: row; gap: 20px; justify-content: flex-start;">
+							<div style="display: flex; flex-direction: row;">
+								<div>Laki-Laki</div>
+								<div><input type="radio" name="jenkel" value="l" class="u-full-width"></div>
+							</div>
+							<div style="display: flex; flex-direction: row;">
+								<div>Perempuan</div>
+								<div><input type="radio" name="jenkel" value="p" class="u-full-width"></div>
+							</div>
+						</div>
+					</div>
+					<div class="six columns">
+						<label>Tanggal Lahir</label>
+						<input type="date" name="lahir" value="<?= date('Y-m-d') ?>" class="u-full-width">
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="twelve columns">
-					<label>Alamat</label>
-					<textarea name="alamat" class="u-full-width"></textarea>
+				<div class="row">
+					<div class="twelve columns">
+						<label>Alamat</label>
+						<textarea name="alamat" class="u-full-width"></textarea>
+					</div>
 				</div>
-			</div>
-			<input type="submit">
-		</form>
+				<input type="submit" class="button-primary">
+			</form>
+		</div>
 	</div>
 
 </body>
