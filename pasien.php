@@ -5,6 +5,7 @@ if (!isset($view)) {
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
