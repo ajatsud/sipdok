@@ -1,7 +1,6 @@
 .container {
     position: relative;
     width: 100%;
-    max-width: 1024px;
     margin: 0 auto;
     padding: 0 20px;
     box-sizing: border-box;
@@ -16,7 +15,7 @@
 
 @media (min-width: 400px) {
     .container {
-        width: 85%;
+        width: 95%;
         padding: 0;
     }
 }
@@ -24,7 +23,7 @@
 @media (min-width: 550px) {
 
     .container {
-        width: 80%;
+        width: 90%;
     }
 
     .column,
@@ -176,29 +175,20 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.header {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .logo {
-    margin: 0;
-    padding: 0;
     text-shadow: 1px 3px #eee;
     letter-spacing: 10px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: baseline;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .logo-img {
@@ -226,6 +216,14 @@
     gap: 10px;
 }
 
+.breadcrumb {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .active {
     color: inherit;
 }
@@ -235,14 +233,6 @@
     box-sizing: border-box;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     border-top: 3px solid #009879;
-}
-
-.breadcrumb {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .table-container {
@@ -433,29 +423,25 @@ input:read-only {
     background-color: #eee;
 }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
 table {
     border-collapse: collapse;
-    font-family: sans-serif;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
     padding: 0;
     margin: 0;
 }
 
 thead tr {
     text-align: left;
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 th,
 td {
     padding: 12px 15px;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
 }
 
 tbody tr:nth-of-type(even) {

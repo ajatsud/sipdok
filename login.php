@@ -5,6 +5,7 @@ if (!isset($view)) {
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,6 +34,7 @@ if (!isset($view)) {
 			<div class="six offset-by-three columns">
 				<div class="box">
 					<h2>Login</h2>
+
 					<?php if (count($errors) > 0) : ?>
 						<?php foreach ($errors as $key => $error) : ?>
 							<?php if (is_string($key)) : ?>
@@ -41,6 +43,7 @@ if (!isset($view)) {
 							<p style="color: red;"><?= $error ?></p>
 						<?php endforeach; ?>
 					<?php endif; ?>
+
 					<form method="post" action="/user/login/auth">
 						<label>Username</label>
 						<input type="text" name="username" value="<?= $inputs["username"] ?? "" ?>" placeholder="Username" class="u-full-width">

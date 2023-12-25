@@ -70,8 +70,8 @@ if (!isset($view)) {
 									<tr>
 										<td><?= $pasien["id"] ?></td>
 										<td><?= $pasien["nama"] ?></td>
-										<td><?= jenkel_display($pasien["jenkel"]) ?></td>
-										<td><?= tanggal_display($pasien["lahir"]) ?></td>
+										<td><?= jenkel_display_format($pasien["jenkel"]) ?></td>
+										<td><?= tanggal_display_format($pasien["lahir"]) ?></td>
 										<td><?= $pasien["alamat"] ?></td>
 									</tr>
 								<?php endforeach; ?>
