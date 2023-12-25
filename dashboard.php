@@ -1,7 +1,6 @@
 <?php
 
-if (!isset($view))
-{
+if (!isset($view)) {
     exit("No direct script access allowed");
 }
 

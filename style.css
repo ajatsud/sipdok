@@ -194,7 +194,7 @@
     margin: 0;
     padding: 0;
     text-shadow: 1px 3px #eee;
-    letter-spacing: 1.2px;
+    letter-spacing: 10px;
 }
 
 .logo-sip {
@@ -203,6 +203,11 @@
 
 .logo-dok {
     color: #3684AB;
+}
+
+.logo-des {
+    letter-spacing: -0.8px;
+    color: #999
 }
 
 .nav {

@@ -1,7 +1,6 @@
 <?php
 
-if (!isset($view))
-{
+if (!isset($view)) {
 	exit("No direct script access allowed");
 }
 
@@ -47,13 +46,25 @@ if (!isset($view))
 		<div class="box">
 			<form method="post" action="/pasien/save">
 				<div class="row">
+					<div class="six-column">
+						<?php if (count($errors) > 0) : ?>
+							<?php foreach ($errors as $key => $error) : ?>
+								<?php if (is_string($key)) : ?>
+									<?php continue; ?>
+								<?php endif; ?>
+								<p style="color: red;"><?= $error ?></p>
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</div>
+				</div>
+				<div class="row">
 					<div class="six columns">
 						<label>ID</label>
-						<input type="text" name="id" placeholder="Otomatis" class="u-full-width" readonly>
+						<input type="text" name="id" value="<?= $inputs["id"] ?? "" ?>" placeholder="Otomatis" class="u-full-width" readonly>
 					</div>
 					<div class="six columns">
 						<label>Nama</label>
-						<input type="text" name="nama" placeholder="Nama" class="u-full-width">
+						<input type="text" name="nama" value="<?= $inputs["nama"] ?? "" ?>" placeholder="Nama" class="u-full-width">
 					</div>
 				</div>
 				<div class="row">
@@ -62,23 +73,23 @@ if (!isset($view))
 						<div style="display: flex; flex-direction: row; gap: 20px; justify-content: flex-start;">
 							<div style="display: flex; flex-direction: row;">
 								<div>Laki-Laki</div>
-								<div><input type="radio" name="jenkel" value="l" class="u-full-width"></div>
+								<div><input type="radio" name="jenkel" value="l" <?= (isset($inputs["jenkel"]) && $inputs["jenkel"] == "l") ? "checked" : "" ?> class="u-full-width"></div>
 							</div>
 							<div style="display: flex; flex-direction: row;">
 								<div>Perempuan</div>
-								<div><input type="radio" name="jenkel" value="p" class="u-full-width"></div>
+								<div><input type="radio" name="jenkel" value="p" <?= (isset($inputs["jenkel"]) && $inputs["jenkel"] == "p") ? "checked" : "" ?> class="u-full-width"></div>
 							</div>
 						</div>
 					</div>
 					<div class="six columns">
 						<label>Tanggal Lahir</label>
-						<input type="date" name="lahir" value="<?= date('Y-m-d') ?>" class="u-full-width">
+						<input type="date" name="lahir" value="<?= (isset($inputs["lahir"])) ? date("Y-m-d", strtotime($inputs["lahir"])) : date("Y-m-d") ?>" class="u-full-width">
 					</div>
 				</div>
 				<div class="row">
 					<div class="twelve columns">
 						<label>Alamat</label>
-						<textarea name="alamat" class="u-full-width"></textarea>
+						<textarea name="alamat" class="u-full-width"><?= $inputs["alamat"] ?? "" ?></textarea>
 					</div>
 				</div>
 				<input type="submit" class="button-primary">
