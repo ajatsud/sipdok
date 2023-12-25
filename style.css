@@ -205,11 +205,6 @@
     color: #3684AB;
 }
 
-.logo-img {
-    width: 40px;
-    height: 40px;
-}
-
 .nav {
     display: flex;
     flex-direction: row;
@@ -261,19 +256,11 @@ img {
     max-width: 100%;
 }
 
-code {
-    padding: 0.2rem 0.5rem;
-    margin: 0 0.2rem;
-    white-space: nowrap;
-    background: #F1F1F1;
-    border: 1px solid #E1E1E1;
-    border-radius: 4px;
-}
-
-pre>code {
-    display: block;
-    padding: 1rem 1.5rem;
-    white-space: pre;
+hr {
+    margin-top: 3rem;
+    margin-bottom: 3.5rem;
+    border-width: 0;
+    border-top: 1px solid #E1E1E1;
 }
 
 table,
@@ -453,13 +440,6 @@ td:last-child {
 
 .u-pull-left {
     float: left;
-}
-
-hr {
-    margin-top: 3rem;
-    margin-bottom: 3.5rem;
-    border-width: 0;
-    border-top: 1px solid #E1E1E1;
 }
 
 .container:after,
