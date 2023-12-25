@@ -23,6 +23,7 @@ if (!isset($view)) {
 				<div>
 					<h1 class="logo">
 						<span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
+						<img class="logo-img" src="/logo.png" alt="Sipdok">
 					</h1>
 					<p class="logo-des"><small>Sistem Informasi Praktik Dokter</small></p>
 				</div>
@@ -40,7 +41,10 @@ if (!isset($view)) {
 		</div>
 		<div class="row">
 			<div class="twelve columns">
-				<h2>Pasien Entri</h2>
+				<div class="breadcrumb">
+					<h2>Pasien Entri</h2>
+					<p><a href="/pasien">Lihat Pasien</a></p>
+				</div>
 			</div>
 		</div>
 		<div class="box">
@@ -65,6 +69,9 @@ if (!isset($view)) {
 					<div class="six columns">
 						<label>Nama</label>
 						<input type="text" name="nama" value="<?= $inputs["nama"] ?? "" ?>" placeholder="Nama" class="u-full-width">
+						<?php if (isset($errors["nama"])) : ?>
+							<p style="color: red;"><?= $errors["nama"] ?></p>
+						<?php endif; ?>
 					</div>
 				</div>
 				<div class="row">
@@ -80,6 +87,9 @@ if (!isset($view)) {
 								<div><input type="radio" name="jenkel" value="p" <?= (isset($inputs["jenkel"]) && $inputs["jenkel"] == "p") ? "checked" : "" ?> class="u-full-width"></div>
 							</div>
 						</div>
+						<?php if (isset($errors["jenkel"])) : ?>
+							<p style="color: red;"><?= $errors["jenkel"] ?></p>
+						<?php endif; ?>
 					</div>
 					<div class="six columns">
 						<label>Tanggal Lahir</label>
@@ -90,6 +100,9 @@ if (!isset($view)) {
 					<div class="twelve columns">
 						<label>Alamat</label>
 						<textarea name="alamat" class="u-full-width"><?= $inputs["alamat"] ?? "" ?></textarea>
+						<?php if (isset($errors["alamat"])) : ?>
+							<p style="color: red;"><?= $errors["alamat"] ?></p>
+						<?php endif; ?>
 					</div>
 				</div>
 				<input type="submit" class="button-primary">

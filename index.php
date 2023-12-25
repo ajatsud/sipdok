@@ -90,63 +90,23 @@ function redirect_to($path) {
 	exit;
 }
 
+function jenkel_display($jenkel) {
+	if ($jenkel == "l") {
+		return "Laki-Laki";
+	}
+	return "Perempuan";
+}
+
+function tanggal_display($date) {
+	return date("d F Y", strtotime($date));
+}
+
 get("/", function () {
 	if (is_login()) {
 		redirect_to("/dashboard");
 	} else {
 		redirect_to("/user/login");
 	}
-	// test
-	global $mysqli;
-	$errors = [];
-	if (mysqli_autocommit($mysqli, false)) {
-		$ret1 = mysqli_query($mysqli, sprintf(
-			"insert into user (username, password) values ('%s', '%s')",
-			mysqli_real_escape_string($mysqli, "ajat"),
-			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
-		));
-		if (mysqli_errno($mysqli)) {
-			$errors[] = mysqli_error($mysqli);
-		}
-		$ret2 = mysqli_query($mysqli, sprintf(
-			"insert into user (username, password) values ('%s', '%s')",
-			mysqli_real_escape_string($mysqli, "admin"),
-			mysqli_real_escape_string($mysqli, password_hash("test", PASSWORD_DEFAULT))
-		));
-		if (mysqli_errno($mysqli)) {
-			$errors[] = mysqli_error($mysqli);
-		}
-		if ($ret1 && $ret2) {
-			mysqli_commit($mysqli);
-			echo "success commit";
-		} else {
-			mysqli_rollback($mysqli);
-			echo "failed rollback";
-		}
-	}
-	$users = [];
-	// sprintf ( string:s, int:d, float:f )
-	// result ( on failed:false, success select:mysqli_object, success:true
-	$result = mysqli_query($mysqli, sprintf(
-		"select * from user where username like '%s'",
-		mysqli_real_escape_string($mysqli, "%")
-	));
-	if (mysqli_errno($mysqli)) {
-		$errors[] = mysqli_error($mysqli);
-	}
-	if ($result) {
-		if (mysqli_num_rows($result) > 0) {
-			while ($row = mysqli_fetch_assoc($result)) {
-				// printf ( string:s, int:d, float:f )
-				// printf('%s %s <br>', $row['username'], $row['password']);
-				$users[] = [
-					"username" => $row["username"],
-					"password" => $row["password"]
-				];
-			}
-		}
-	}
-	exit;
 });
 
 get("/user/login", function () {
@@ -253,6 +213,39 @@ get("/pasien", function () {
 	if (!is_login()) {
 		redirect_to("/user/login");
 	}
+	global $mysqli;
+	$errors = [];
+	$res = mysqli_query($mysqli, "select * from pasien order by id desc");
+	if (mysqli_errno($mysqli)) {
+		$errors[] = mysqli_error($mysqli);
+	}
+	$pasiens = [];
+	if ($res) {
+		if (mysqli_num_rows($res) > 0) {
+			while ($row = mysqli_fetch_assoc($res)) {
+				$pasiens[] = [
+					"id" => $row["id"],
+					"nama" => $row["nama"],
+					"jenkel" => $row["jenkel"],
+					"lahir" => $row["lahir"],
+					"alamat" => $row["alamat"]
+				];
+			}
+		}
+	}
+	return [
+		"view" => "pasien",
+		"title" => "Pasien",
+		"menu" => "pasien",
+		"errors" => $errors,
+		"pasiens" => $pasiens
+	];
+});
+
+get("/pasien/form", function () {
+	if (!is_login()) {
+		redirect_to("/user/login");
+	}
 	$inputs = [];
 	$errors = [];
 	if (isset($_SESSION["inputs"])) {
@@ -265,7 +258,7 @@ get("/pasien", function () {
 	}
 	return [
 		"view" => "pasien_form",
-		"title" => "Tambah Pasien",
+		"title" => "Tambah Form",
 		"menu" => "pasien",
 		"inputs" => $inputs,
 		"errors" => $errors
@@ -284,7 +277,8 @@ post("/pasien/save", function () {
 		$id = htmlentities(strip_tags(trim($_POST["id"])));
 		if (strlen($id) > 0) {
 			$inputs["id"] = $id;
-		} else { // PS2023120001
+		} else {
+			// PS2023120001
 			$is_new = true;
 			$prefix = "PS" . date("Ym");
 			$res = mysqli_query($mysqli, sprintf(
@@ -348,13 +342,80 @@ post("/pasien/save", function () {
 		$errors["alamat"] = "Alamat undefined";
 	}
 	if (count($errors) == 0) {
-		// proses save
+		if ($is_new) {
+			if (mysqli_autocommit($mysqli, false)) {
+				$ret = mysqli_query($mysqli, sprintf(
+					"insert into pasien (
+						id, 
+						nama, 
+						jenkel, 
+						lahir, 
+						alamat,
+						ins_id,
+						ins_dtm,
+						upd_id,
+						upd_dtm
+					) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+					mysqli_real_escape_string($mysqli, $inputs["id"]),
+					mysqli_real_escape_string($mysqli, $inputs["nama"]),
+					mysqli_real_escape_string($mysqli, $inputs["jenkel"]),
+					mysqli_real_escape_string($mysqli, $inputs["lahir"]),
+					mysqli_real_escape_string($mysqli, $inputs["alamat"]),
+					mysqli_real_escape_string($mysqli, $_SESSION["username"]),
+					mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s")),
+					mysqli_real_escape_string($mysqli, $_SESSION["username"]),
+					mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s"))
+				));
+				if (mysqli_errno($mysqli)) {
+					$errors[] = mysqli_error($mysqli);
+				}
+				if ($ret) {
+					mysqli_commit($mysqli);
+					redirect_to("/pasien");
+				} else {
+					mysqli_rollback($mysqli);
+				}
+			}
+		} else {
+			if (mysqli_autocommit($mysqli, false)) {
+				$ret = mysqli_query($mysqli, sprintf(
+					"update pasien 
+						set nama = '%s', 
+						jenkel = '%s', 
+						lahir='%s', 
+						alamat = '%s', 
+						upd_id = '%s', 
+						upd_dtm = '%s' 
+					where id = '%s'",
+					mysqli_real_escape_string($mysqli, $inputs["nama"]),
+					mysqli_real_escape_string($mysqli, $inputs["jenkel"]),
+					mysqli_real_escape_string($mysqli, $inputs["lahir"]),
+					mysqli_real_escape_string($mysqli, $inputs["alamat"]),
+					mysqli_real_escape_string($mysqli, $_SESSION["username"]),
+					mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s")),
+					mysqli_real_escape_string($mysqli, $inputs["id"])
+				));
+				if (mysqli_errno($mysqli)) {
+					$errors[] = mysqli_error($mysqli);
+				}
+				if ($ret) {
+					mysqli_commit($mysqli);
+					redirect_to("/pasien");
+				} else {
+					mysqli_rollback($mysqli);
+				}
+			}
+		}
 	} else {
-		$inputs["id"] = "";
+		if ($is_new) {
+			if (isset($inputs["id"])) {
+				unset($inputs["id"]);
+			}
+		}
 	}
 	$_SESSION["inputs"] = $inputs;
 	$_SESSION["errors"] = $errors;
-	header("Location: /pasien", true, 303);
+	header("Location: /pasien/form", true, 303);
 	exit;
 });
 
