@@ -371,4 +371,35 @@ get("/dashboard", function ()
 	];
 });
 
+get("/pasien", function ()
+{
+	if (!is_login())
+	{
+		redirect_to("/user/login");
+	}
+
+	return [
+		"view" => "pasien_form",
+		"title" => "Tambah Pasien",
+		"menu" => "pasien"
+	];
+});
+
+post("/pasien/save", function ()
+{
+	if (!is_login())
+	{
+		redirect_to("/user/login");
+	}
+
+	// ok masalah date sudah solve
+
+	$new_date = date('Y-m-d', strtotime($_POST['lahir']));
+
+	echo "<pre>";
+	var_dump($new_date, $_POST);
+	echo "</pre>";
+	exit;
+});
+
 render(dispatch());

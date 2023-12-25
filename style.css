@@ -272,10 +272,11 @@ form {
 label {
     display: block;
     margin-bottom: 0.5rem;
+    font-weight: 700;
 }
 
 textarea {
-    min-height: 65px;
+    min-height: 75px;
     padding-top: 6px;
     padding-bottom: 6px;
 }
