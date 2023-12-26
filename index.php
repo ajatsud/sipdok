@@ -484,4 +484,58 @@ post("/pasien/save", function () {
 	exit;
 });
 
+get("/pendaftaran", function () {
+	if (!is_login()) {
+		redirect_to("/user/login");
+	}
+
+	$inputs = [];
+	$errors = [];
+
+	return [
+		"view" => "pendaftaran",
+		"title" => "Pendaftaran",
+		"menu" => "pendaftaran",
+		"inputs" => $inputs,
+		"errors" => $errors
+	];
+});
+
+post("/popup/pasien/pendaftaran", function () {
+	global $mysqli;
+
+	$errors = [];
+	$inputs = json_decode(file_get_contents("php://input"), true);
+
+	$res = mysqli_query($mysqli, sprintf(
+		"select * from pasien where nama like '%s'",
+		mysqli_real_escape_string($mysqli, "%" . $inputs["nama"] . "%")
+	));
+
+	if (mysqli_errno($mysqli)) {
+		$errors[] = mysqli_error($mysqli);
+	}
+
+	$pasiens = [];
+
+	if ($res) {
+		if (mysqli_num_rows($res)) {
+			while ($row = mysqli_fetch_assoc($res)) {
+				$pasiens[] = [
+					"id" => $row["id"],
+					"nama" => $row["nama"],
+					"jenkel" => $row["jenkel"],
+					"lahir" => $row["lahir"],
+					"alamat" => $row["alamat"]
+				];
+			}
+		}
+	}
+
+	header("Content-type: application/json");
+	echo json_encode($pasiens);
+
+	exit;
+});
+
 render(dispatch());
