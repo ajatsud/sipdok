@@ -296,6 +296,40 @@ get("/pasien/form", function () {
 	];
 });
 
+get("/pasien/edit/:id", function ($id) {
+	global $mysqli;
+
+	$inputs = [];
+	$errors = [];
+
+	$res = mysqli_query($mysqli, sprintf(
+		"select * from pasien where id = '%s'",
+		mysqli_real_escape_string($mysqli, $id)
+	));
+
+	if (mysqli_errno($mysqli)) {
+		$errors[] = mysqli_error($mysqli);
+	}
+
+	if ($res) {
+		if (mysqli_num_rows($res) == 1) {
+			if ($row = mysqli_fetch_assoc($res)) {
+				$inputs["id"] = $row["id"];
+				$inputs["nama"] = $row["nama"];
+				$inputs["jenkel"] = $row["jenkel"];
+				$inputs["lahir"] = $row["lahir"];
+				$inputs["alamat"] = $row["alamat"];
+			}
+		}
+	}
+
+	$_SESSION["inputs"] = $inputs;
+	$_SESSION["errors"] = $errors;
+
+	header("Location: /pasien/form", true, 303);
+	exit;
+});
+
 post("/pasien/save", function () {
 	if (!is_login()) {
 		redirect_to("/user/login");
@@ -354,10 +388,10 @@ post("/pasien/save", function () {
 		if (strlen($jenkel) > 0) {
 			$inputs["jenkel"] = $jenkel;
 		} else {
-			$errors["jenkel"] = "Jenkel harus dipilih salah satu";
+			$errors["jenkel"] = "Jenkel tidak boleh kosong";
 		}
 	} else {
-		$errors["jenkel"] = "Jenkel undefine";
+		$errors["jenkel"] = "Jenkel harus dipilih";
 	}
 
 	if (isset($_POST["lahir"])) {
@@ -365,7 +399,7 @@ post("/pasien/save", function () {
 		if (strlen($lahir) > 0) {
 			$inputs["lahir"] = date("Y-m-d", strtotime($lahir));
 		} else {
-			$errors["lahir"] = "Tanggal lahir harus diinput";
+			$errors["lahir"] = "Tanggal lahir tidak boleh kosong";
 		}
 	} else {
 		$errors["lahir"] = "Tanggal lahir undefine";
@@ -376,7 +410,7 @@ post("/pasien/save", function () {
 		if (strlen($alamat) > 0) {
 			$inputs["alamat"] = $alamat;
 		} else {
-			$errors["alamat"] = "Alamat harus diisi";
+			$errors["alamat"] = "Alamat tidak boleh kosong";
 		}
 	} else {
 		$errors["alamat"] = "Alamat undefined";

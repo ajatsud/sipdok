@@ -64,6 +64,7 @@ if (!isset($view)) {
 									<th>Jenkel</th>
 									<th>Lahir</th>
 									<th>Alamat</th>
+									<th>Edit</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -74,6 +75,7 @@ if (!isset($view)) {
 										<td><?= jenkel_display_format($pasien["jenkel"]) ?></td>
 										<td><?= tanggal_display_format($pasien["lahir"]) ?></td>
 										<td><?= $pasien["alamat"] ?></td>
+										<td><a href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a></td>
 									</tr>
 								<?php endforeach; ?>
 							</tbody>
