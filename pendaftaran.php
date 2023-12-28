@@ -67,7 +67,7 @@ if (!isset($view)) {
 						<div class="row">
 							<div class="six columns">
 								<label>ID</label>
-								<input type="text" name="id" value="<?= $inputs["id"] ?? "" ?>" placeholder="Otomatis" class="u-full-width" readonly>
+								<input type="text" name="id" id="id" value="<?= $inputs["id"] ?? "" ?>" placeholder="Otomatis" class="u-full-width" readonly>
 							</div>
 							<div class="six columns">
 								<label>Pasien ID</label>
@@ -94,11 +94,11 @@ if (!isset($view)) {
 						<div style="display: flex; flex-direction: row; gap: 20px; justify-content: flex-start;">
 							<div style="display: flex; flex-direction: row;">
 								<div>Laki-Laki</div>
-								<div><input type="radio" name="jenkel" value="l" <?= (isset($inputs["jenkel"]) && $inputs["jenkel"] == "l") ? "checked" : "" ?> class="u-full-width"></div>
+								<div><input type="radio" name="jenkel" id="jenkel_l" value="l" <?= (isset($inputs["jenkel"]) && $inputs["jenkel"] == "l") ? "checked" : "" ?> class="u-full-width"></div>
 							</div>
 							<div style="display: flex; flex-direction: row;">
 								<div>Perempuan</div>
-								<div><input type="radio" name="jenkel" value="p" <?= (isset($inputs["jenkel"]) && $inputs["jenkel"] == "p") ? "checked" : "" ?> class="u-full-width"></div>
+								<div><input type="radio" name="jenkel" id="jenkel_p" value="p" <?= (isset($inputs["jenkel"]) && $inputs["jenkel"] == "p") ? "checked" : "" ?> class="u-full-width"></div>
 							</div>
 						</div>
 						<?php if (isset($errors["jenkel"])) : ?>
@@ -107,20 +107,20 @@ if (!isset($view)) {
 					</div>
 					<div class="six columns">
 						<label>Tanggal Lahir</label>
-						<input type="date" name="lahir" value="<?= (isset($inputs["lahir"])) ? date("Y-m-d", strtotime($inputs["lahir"])) : date("Y-m-d") ?>" class="u-full-width" readonly>
+						<input type="date" name="lahir" id="lahir" value="<?= (isset($inputs["lahir"])) ? date("Y-m-d", strtotime($inputs["lahir"])) : date("Y-m-d") ?>" class="u-full-width" readonly>
 					</div>
 				</div>
 				<div class="row">
 					<div class="six columns">
 						<label>Alamat</label>
-						<textarea name="alamat" class="u-full-width" readonly><?= $inputs["alamat"] ?? "" ?></textarea>
+						<textarea name="alamat" id="alamat" class="u-full-width" readonly><?= $inputs["alamat"] ?? "" ?></textarea>
 						<?php if (isset($errors["alamat"])) : ?>
 							<p style="color: red;"><?= $errors["alamat"] ?></p>
 						<?php endif; ?>
 					</div>
 					<div class="six columns">
 						<label>Keluhan</label>
-						<textarea name="keluhan" class="u-full-width"><?= $inputs["keluhan"] ?? "" ?></textarea>
+						<textarea name="keluhan" id="keluhan" class="u-full-width"><?= $inputs["keluhan"] ?? "" ?></textarea>
 						<?php if (isset($errors["keluhan"])) : ?>
 							<p style="color: red;"><?= $errors["keluhan"] ?></p>
 						<?php endif; ?>
@@ -141,31 +141,57 @@ if (!isset($view)) {
 
 				ajax.open("POST", "/popup/pasien/pendaftaran", true);
 				ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+				ajax.send(JSON.stringify({
+					"nama": nama.value
+				}));
 
 				ajax.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						let data = JSON.parse(this.responseText);
 						let html = "";
 						for (let i = 0; i < data.length; i++) {
-							html += "<p class='autocomplete' onclick='choose_pasien(this);' data-id='" + data[i]["id"] + "'>" + data[i]["nama"] + "</p>";
+							html += `<p class="autocomplete" 
+										onclick="choose_pasien(this);" 
+										data-id="${data[i]["id"]}"
+										data-nama="${data[i]["nama"]}"
+										data-jenkel="${data[i]["jenkel"]}"
+										data-alamat="${data[i]["lahir"]}"
+										data-alamat="${data[i]["alamat"]}">
+										<span class="autocomplete-1">${data[i]["id"]}</span>
+										<span class="autocomplete-2">${data[i]["nama"]}</span>
+										<span class="autocomplete-4">${data[i]["alamat"]}</span>
+									</p>`;
 						}
-
 						document.getElementById("pasien-list").innerHTML = html;
 					}
 				};
-
-				ajax.send(JSON.stringify({
-					"nama": nama.value
-				}));
+			} else {
+				document.getElementById("pasien-list").innerHTML = "";
 			}
 		}
 
 		function choose_pasien(self) {
 			let pasien_id = self.getAttribute("data-id");
+			let nama = self.getAttribute("data-nama");
+			let jenkel = self.getAttribute("data-jenkel");
+			let lahir = self.getAttribute("data-lahir");
+			let alamat = self.getAttribute("data-alamat");
 
 			document.getElementById("pasien_id").value = pasien_id;
+			document.getElementById("nama").value = nama;
+
+			if (jenkel == 'l') {
+				document.getElementById("jenkel_l").checked = true;
+				document.getElementById("jenkel_p").checked = false;
+			} else {
+				document.getElementById("jenkel_l").checked = false;
+				document.getElementById("jenkel_p").checked = true;
+			}
+
+			document.getElementById("lahir").value = lahir;
+			document.getElementById("alamat").value = alamat;
+
 			document.getElementById("pasien-list").innerHTML = "";
-			document.getElementById("nama").value = self.innerHTML;
 		}
 	</script>
 </body>
