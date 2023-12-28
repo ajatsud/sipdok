@@ -77,7 +77,7 @@ if (!isset($view)) {
 					</div>
 					<div class="six columns">
 						<label>Nama</label>
-						<input type="text" name="nama" id="nama" value="<?= $inputs["nama"] ?? "" ?>" onkeyup="popup_pasien();" placeholder="Nama" class="u-full-width">
+						<input type="text" name="nama" id="nama" value="<?= $inputs["nama"] ?? "" ?>" onkeyup="popup_pasien();" placeholder="Nama" class="u-full-width" autocomplete="off">
 						<?php if (isset($errors["nama"])) : ?>
 							<p style="color: red;"><?= $errors["nama"] ?></p>
 						<?php endif; ?>
@@ -85,7 +85,7 @@ if (!isset($view)) {
 				</div>
 				<div class="row">
 					<div class="twelve columns">
-						<div id="pasien-list"></div>
+						<div id="pasien-list" class="autocomplete"></div>
 					</div>
 				</div>
 				<div class="row">
@@ -150,16 +150,15 @@ if (!isset($view)) {
 						let data = JSON.parse(this.responseText);
 						let html = "";
 						for (let i = 0; i < data.length; i++) {
-							html += `<p class="autocomplete" 
-										onclick="choose_pasien(this);" 
+							html += `<p onclick="choose_pasien(this);" 
 										data-id="${data[i]["id"]}"
 										data-nama="${data[i]["nama"]}"
 										data-jenkel="${data[i]["jenkel"]}"
-										data-alamat="${data[i]["lahir"]}"
+										data-lahir="${data[i]["lahir"]}"
 										data-alamat="${data[i]["alamat"]}">
-										<span class="autocomplete-1">${data[i]["id"]}</span>
-										<span class="autocomplete-2">${data[i]["nama"]}</span>
-										<span class="autocomplete-4">${data[i]["alamat"]}</span>
+										<span class="color-1">${data[i]["id"]}</span>
+										<span class="color-2">${data[i]["nama"]}</span>
+										<span class="color-3">${data[i]["alamat"]}</span>
 									</p>`;
 						}
 						document.getElementById("pasien-list").innerHTML = html;

@@ -3,12 +3,15 @@
 date_default_timezone_set("Asia/Jakarta");
 
 mysqli_report(MYSQLI_REPORT_OFF);
+
 $mysqli = mysqli_connect("localhost", "root", "", "sipdok", 3306);
+
 if (mysqli_connect_errno()) {
 	exit(mysqli_connect_error());
 }
 
 mysqli_set_charset($mysqli, "utf8mb4");
+
 if (mysqli_errno($mysqli)) {
 	exit(mysqli_error($mysqli));
 }
@@ -49,7 +52,6 @@ function dispatch() {
 		if ($route["method"] !== $method) {
 			continue;
 		}
-
 		$pattern = preg_replace("/\/:([^\/]+)/", "/(?P<$1>[^/]+)", $route["path"]);
 		if (preg_match("#^" . $pattern . "$#", $path, $matches)) {
 			array_shift($matches);
@@ -85,7 +87,6 @@ function is_login() {
 	if (isset($_SESSION["username"])) {
 		return true;
 	}
-
 	return false;
 }
 
@@ -98,7 +99,6 @@ function jenkel_display_format($jenkel) {
 	if ($jenkel == "l") {
 		return "Laki-Laki";
 	}
-
 	return "Perempuan";
 }
 
@@ -302,6 +302,8 @@ get("/pasien/edit/:id", function ($id) {
 	$inputs = [];
 	$errors = [];
 
+	$id = htmlentities(strip_tags(trim($id)));
+
 	$res = mysqli_query($mysqli, sprintf(
 		"select * from pasien where id = '%s'",
 		mysqli_real_escape_string($mysqli, $id)
@@ -339,6 +341,7 @@ post("/pasien/save", function () {
 
 	$inputs = [];
 	$errors = [];
+
 	$is_new = false;
 
 	if (isset($_POST["id"])) {
@@ -506,7 +509,6 @@ post("/popup/pasien/pendaftaran", function () {
 
 	header("Content-type: application/json");
 
-	$pasiens = [];
 	$errors = [];
 	$inputs = json_decode(file_get_contents("php://input"), true);
 
@@ -518,6 +520,8 @@ post("/popup/pasien/pendaftaran", function () {
 			$errors["nama"] = "Nama harus sama dengan 2 atau lebih karakter";
 		}
 	}
+
+	$pasiens = [];
 
 	if (count($errors) == 0) {
 		$res = mysqli_query($mysqli, sprintf(
