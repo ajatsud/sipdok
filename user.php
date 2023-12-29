@@ -1,0 +1,109 @@
+<?php
+
+if (!defined("APP_VER")) {
+	exit("No direct script access allowed");
+}
+
+get("/user/login", function () {
+	if (is_login()) {
+		redirect_to("/dashboard");
+	}
+
+	$inputs = [];
+	$errors = [];
+
+	if (isset($_SESSION["inputs"])) {
+		$inputs = $_SESSION["inputs"];
+		unset($_SESSION["inputs"]);
+	}
+
+	if (isset($_SESSION["errors"])) {
+		$errors = $_SESSION["errors"];
+		unset($_SESSION["errors"]);
+	}
+
+	return [
+		"view" => "user_login",
+		"title" => "Login",
+		"inputs" => $inputs,
+		"errors" => $errors
+	];
+});
+
+post("/user/login/auth", function () {
+	if (is_login()) {
+		redirect_to("/dashboard");
+	}
+
+	global $mysqli;
+
+	$inputs = [];
+	$errors = [];
+
+	if (isset($_POST["username"])) {
+		$username = htmlentities(strip_tags(trim($_POST["username"])));
+		if (strlen($username) > 0) {
+			$inputs["username"] = $username;
+		} else {
+			$errors["username"] = "Username tidak boleh kosong";
+		}
+	} else {
+		$errors["username"] = "Username undefine";
+	}
+
+	if (isset($_POST["password"])) {
+		$password = htmlentities(strip_tags(trim($_POST["password"])));
+		if (strlen($password) > 0) {
+			$inputs["password"] = $password;
+		} else {
+			$errors["password"] = "Password tidak boleh kosong";
+		}
+	} else {
+		$errors["password"] = "Password undefine";
+	}
+
+	if (count($errors) == 0) {
+		$res = mysqli_query($mysqli, sprintf(
+			"select * from user where username = '%s'",
+			mysqli_real_escape_string($mysqli, $inputs["username"])
+		));
+
+		if (mysqli_errno($mysqli)) {
+			$errors[] = mysqli_error($mysqli);
+		}
+
+		if ($res) {
+			if (mysqli_num_rows($res) == 1) {
+				$user = mysqli_fetch_assoc($res);
+				$password_hash = $user["password"];
+				if (password_verify($inputs["password"], $password_hash)) {
+					$_SESSION["username"] = $inputs["username"];
+					header("Location: /dashboard");
+					exit;
+				} else {
+					$errors["password"] = "Password salah";
+				}
+			} else {
+				$errors["username"] = "Username " . $inputs["username"] . " tidak terdaftar";
+			}
+		}
+	}
+
+	$_SESSION["inputs"] = $inputs;
+	$_SESSION["errors"] = $errors;
+
+	header("Location: /user/login", true, 303);
+	exit;
+});
+
+get("/user/logout", function () {
+	if (isset($_SESSION["username"])) {
+		unset($_SESSION["username"]);
+	}
+
+	$_SESSION = [];
+	session_destroy();
+
+	header("Location: /user/login");
+	exit;
+});
