@@ -5,6 +5,7 @@ if (!defined("APP_VER")) {
 }
 
 get("/pasien", function () {
+
 	if (!is_login()) {
 		redirect_to("/user/login");
 	}
@@ -44,6 +45,7 @@ get("/pasien", function () {
 });
 
 get("/pasien/form", function () {
+
 	if (!is_login()) {
 		redirect_to("/user/login");
 	}
@@ -71,6 +73,7 @@ get("/pasien/form", function () {
 });
 
 get("/pasien/edit/:id", function ($id) {
+
 	global $mysqli;
 
 	$inputs = [];
@@ -107,6 +110,7 @@ get("/pasien/edit/:id", function ($id) {
 });
 
 post("/pasien/save", function () {
+
 	if (!is_login()) {
 		redirect_to("/user/login");
 	}

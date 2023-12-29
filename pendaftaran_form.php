@@ -98,9 +98,11 @@ if (!defined("APP_VER")) {
 
 <script>
 	function popup_pasien() {
+
 		let nama = document.getElementById("nama");
 
 		if (nama.value.length >= 2) {
+
 			document.getElementById("pasien-list").innerHTML = "Loading...";
 
 			let ajax = new XMLHttpRequest();
@@ -136,6 +138,7 @@ if (!defined("APP_VER")) {
 	}
 
 	function choose_pasien(self) {
+
 		let pasien_id = self.getAttribute("data-id");
 		let nama = self.getAttribute("data-nama");
 		let jenkel = self.getAttribute("data-jenkel");

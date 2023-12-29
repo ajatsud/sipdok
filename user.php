@@ -5,6 +5,7 @@ if (!defined("APP_VER")) {
 }
 
 get("/user/login", function () {
+
 	if (is_login()) {
 		redirect_to("/dashboard");
 	}
@@ -23,7 +24,7 @@ get("/user/login", function () {
 	}
 
 	return [
-		"view" => "user_login",
+		"view" => "user_login_form",
 		"title" => "Login",
 		"inputs" => $inputs,
 		"errors" => $errors
@@ -31,6 +32,7 @@ get("/user/login", function () {
 });
 
 post("/user/login/auth", function () {
+
 	if (is_login()) {
 		redirect_to("/dashboard");
 	}
@@ -78,8 +80,7 @@ post("/user/login/auth", function () {
 				$password_hash = $user["password"];
 				if (password_verify($inputs["password"], $password_hash)) {
 					$_SESSION["username"] = $inputs["username"];
-					header("Location: /dashboard");
-					exit;
+					redirect_to("/dashboard");
 				} else {
 					$errors["password"] = "Password salah";
 				}
@@ -97,6 +98,7 @@ post("/user/login/auth", function () {
 });
 
 get("/user/logout", function () {
+
 	if (isset($_SESSION["username"])) {
 		unset($_SESSION["username"]);
 	}

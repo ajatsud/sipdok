@@ -8,10 +8,12 @@ if (!defined("APP_VER")) {
 
 <div class="row">
 	<div class="twelve columns">
+
 		<div class="breadcrumb">
 			<h2>Pasien List</h2>
 			<p><a href="/pasien/form" class="button">Pasien Entri</a></p>
 		</div>
+
 		<?php if (count($errors) > 0) : ?>
 			<?php foreach ($errors as $key => $error) : ?>
 				<?php if (is_string($key)) : ?>
@@ -20,6 +22,7 @@ if (!defined("APP_VER")) {
 				<p style="color: red;"><?= $error ?></p>
 			<?php endforeach; ?>
 		<?php endif; ?>
+
 		<?php if (count($pasiens) > 0) : ?>
 			<div class="table-container">
 				<table class="u-full-width">
@@ -48,5 +51,6 @@ if (!defined("APP_VER")) {
 				</table>
 			</div>
 		<?php endif; ?>
+
 	</div>
 </div>
