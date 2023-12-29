@@ -13,7 +13,7 @@ if (!defined("APP_VER")) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?= $title ?></title>
-	<link href="/style.css?version=<?= filemtime(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . 'style.css') ?>" rel="stylesheet">
+	<link href="/res/style.css?version=<?= filemtime(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "res" . DIRECTORY_SEPARATOR .  'style.css') ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -24,7 +24,7 @@ if (!defined("APP_VER")) {
 					<div>
 						<h1 class="logo">
 							<span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
-							<img class="logo-img" src="/logo.png" alt="Sipdok">
+							<img class="logo-img" src="/res/logo.png" alt="Sipdok">
 						</h1>
 						<p class="logo-des"><small>Sistem Informasi Praktik Dokter</small></p>
 					</div>
@@ -46,7 +46,7 @@ if (!defined("APP_VER")) {
 					<div>
 						<h1 class="logo">
 							<span class="logo-sip">Sip</span><span class="logo-dok">dok</span>
-							<img class="logo-img" src="/logo.png" alt="Sipdok">
+							<img class="logo-img" src="/res/logo.png" alt="Sipdok">
 						</h1>
 						<p class="logo-des"><small>Sistem Informasi Praktik Dokter</small></p>
 					</div>
