@@ -25,6 +25,7 @@ if (!defined("APP_VER")) {
 				<table class="u-full-width">
 					<thead>
 						<tr>
+							<th>No</th>
 							<th>ID</th>
 							<th>Nama</th>
 							<th>Jenkel</th>
@@ -34,8 +35,10 @@ if (!defined("APP_VER")) {
 						</tr>
 					</thead>
 					<tbody>
+						<?php $row_no = 1; ?>
 						<?php foreach ($pasiens as $pasien) : ?>
 							<tr>
+								<td><?= $row_no ?></td>
 								<td><?= $pasien["id"] ?></td>
 								<td><?= $pasien["nama"] ?></td>
 								<td><?= jenkel_display_format($pasien["jenkel"]) ?></td>
@@ -43,6 +46,7 @@ if (!defined("APP_VER")) {
 								<td><?= $pasien["alamat"] ?></td>
 								<td><a href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a></td>
 							</tr>
+							<?php $row_no++; ?>
 						<?php endforeach; ?>
 					</tbody>
 				</table>

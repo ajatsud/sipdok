@@ -15,7 +15,7 @@ if (!defined("APP_VER")) {
 	</div>
 </div>
 <div class="box">
-	<form method="post" action="/pasien/save">
+	<form method="post" action="/pendaftaran/save">
 		<div class="row">
 			<div class="six-column">
 				<?php if (count($errors) > 0) : ?>
@@ -43,7 +43,7 @@ if (!defined("APP_VER")) {
 			</div>
 			<div class="six columns">
 				<label>Nama</label>
-				<input type="text" name="nama" id="nama" value="<?= $inputs["nama"] ?? "" ?>" onkeyup="pasien_autocomplete();" placeholder="Nama" class="u-full-width" autocomplete="off">
+				<input type="text" name="nama" id="nama" value="<?= $inputs["nama"] ?? "" ?>" onkeyup="autocomplete_pasien();" placeholder="Nama" class="u-full-width" autocomplete="off">
 				<?php if (isset($errors["nama"])) : ?>
 					<p style="color: red;"><?= $errors["nama"] ?></p>
 				<?php endif; ?>
@@ -73,13 +73,13 @@ if (!defined("APP_VER")) {
 			</div>
 			<div class="six columns">
 				<label>Tanggal Lahir</label>
-				<input type="date" name="lahir" id="lahir" value="<?= (isset($inputs["lahir"])) ? date("Y-m-d", strtotime($inputs["lahir"])) : date("Y-m-d") ?>" class="u-full-width" readonly>
+				<input type="date" name="lahir" id="lahir" value="<?= (isset($inputs["lahir"])) ? date("Y-m-d", strtotime($inputs["lahir"])) : date("Y-m-d") ?>" class="u-full-width">
 			</div>
 		</div>
 		<div class="row">
 			<div class="six columns">
 				<label>Alamat</label>
-				<textarea name="alamat" id="alamat" class="u-full-width" readonly><?= $inputs["alamat"] ?? "" ?></textarea>
+				<textarea name="alamat" id="alamat" class="u-full-width"><?= $inputs["alamat"] ?? "" ?></textarea>
 				<?php if (isset($errors["alamat"])) : ?>
 					<p style="color: red;"><?= $errors["alamat"] ?></p>
 				<?php endif; ?>
@@ -97,7 +97,7 @@ if (!defined("APP_VER")) {
 </div>
 
 <script>
-	function pasien_autocomplete() {
+	function autocomplete_pasien() {
 		let nama = document.getElementById("nama");
 		if (nama.value.length >= 2) {
 			document.getElementById("pasien-list").innerHTML = "Loading...";
@@ -112,7 +112,7 @@ if (!defined("APP_VER")) {
 					let data = JSON.parse(this.responseText);
 					let html = "";
 					for (let i = 0; i < data.length; i++) {
-						html += `<p onclick="pasien_click(this);" 
+						html += `<p onclick="click_pasien(this);" 
 										data-id="${data[i]["id"]}"
 										data-nama="${data[i]["nama"]}"
 										data-jenkel="${data[i]["jenkel"]}"
@@ -131,7 +131,7 @@ if (!defined("APP_VER")) {
 		}
 	}
 
-	function pasien_click(self) {
+	function click_pasien(self) {
 		let pasien_id = self.getAttribute("data-id");
 		let nama = self.getAttribute("data-nama");
 		let jenkel = self.getAttribute("data-jenkel");
