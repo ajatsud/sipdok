@@ -105,8 +105,7 @@ get("/pasien/edit/:id", function ($id) {
 	$_SESSION["inputs"] = $inputs;
 	$_SESSION["errors"] = $errors;
 
-	header("Location: /pasien/form", true, 303);
-	exit;
+	redirect_with("/pasien/form");
 });
 
 post("/pasien/save", function () {
@@ -201,7 +200,7 @@ post("/pasien/save", function () {
 		if ($is_new) {
 			if (mysqli_autocommit($mysqli, false)) {
 				$ret = mysqli_query($mysqli, sprintf(
-					"insert into pasien (id, namax, jenkel, lahir, alamat, ins_id, ins_dtm, upd_id, upd_dtm) 
+					"insert into pasien (id, nama, jenkel, lahir, alamat, ins_id, ins_dtm, upd_id, upd_dtm) 
 					values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 					mysqli_real_escape_string($mysqli, $inputs["id"]),
 					mysqli_real_escape_string($mysqli, $inputs["nama"]),
@@ -261,6 +260,5 @@ post("/pasien/save", function () {
 	$_SESSION["inputs"] = $inputs;
 	$_SESSION["errors"] = $errors;
 
-	header("Location: /pasien/form", true, 303);
-	exit;
+	redirect_with("/pasien/form");
 });

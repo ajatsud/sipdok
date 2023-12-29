@@ -93,8 +93,7 @@ post("/user/login/auth", function () {
 	$_SESSION["inputs"] = $inputs;
 	$_SESSION["errors"] = $errors;
 
-	header("Location: /user/login", true, 303);
-	exit;
+	redirect_with("/user/login");
 });
 
 get("/user/logout", function () {
@@ -106,6 +105,5 @@ get("/user/logout", function () {
 	$_SESSION = [];
 	session_destroy();
 
-	header("Location: /user/login");
-	exit;
+	redirect_to("/user/login");
 });

@@ -31,6 +31,18 @@ function request() {
 	} else {
 		$path = "home";
 	}
+
+	$black_list = [
+		"database",
+		"router",
+		"bootstrap",
+		"functions"
+	];
+
+	if (in_array($path, $black_list)) {
+		redirect_to("/");
+	}
+
 	return $path;
 }
 

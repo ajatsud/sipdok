@@ -5,6 +5,7 @@ if (!defined("APP_VER")) {
 }
 
 get("/dashboard", function () {
+
 	if (!is_login()) {
 		redirect_to("/user/login");
 	}

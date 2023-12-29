@@ -16,6 +16,11 @@ function redirect_to($path) {
 	exit;
 }
 
+function redirect_with($path) {
+	header("Location: " . $path, true, 303);
+	exit;
+}
+
 function jenkel_display_format($jenkel) {
 	if ($jenkel == "l") {
 		return "Laki-Laki";
