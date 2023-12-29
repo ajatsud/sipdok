@@ -13,11 +13,10 @@ if (!defined("APP_VER")) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?= $title ?></title>
-	<link href="/style.css?version=<?= filemtime(__DIR__ . DIRECTORY_SEPARATOR . 'style.css') ?>" rel="stylesheet">
+	<link href="/style.css?version=<?= filemtime(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . 'style.css') ?>" rel="stylesheet">
 </head>
 
 <body>
-
 	<div class="container">
 		<?php if (isset($_SESSION["username"])) : ?>
 			<div class="row">
@@ -54,4 +53,3 @@ if (!defined("APP_VER")) {
 				</div>
 			</div>
 		<?php endif; ?>
-		<!-- begin content -->

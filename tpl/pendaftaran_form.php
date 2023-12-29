@@ -43,7 +43,7 @@ if (!defined("APP_VER")) {
 			</div>
 			<div class="six columns">
 				<label>Nama</label>
-				<input type="text" name="nama" id="nama" value="<?= $inputs["nama"] ?? "" ?>" onkeyup="popup_pasien();" placeholder="Nama" class="u-full-width" autocomplete="off">
+				<input type="text" name="nama" id="nama" value="<?= $inputs["nama"] ?? "" ?>" onkeyup="pasien_autocomplete();" placeholder="Nama" class="u-full-width" autocomplete="off">
 				<?php if (isset($errors["nama"])) : ?>
 					<p style="color: red;"><?= $errors["nama"] ?></p>
 				<?php endif; ?>
@@ -97,28 +97,22 @@ if (!defined("APP_VER")) {
 </div>
 
 <script>
-	function popup_pasien() {
-
+	function pasien_autocomplete() {
 		let nama = document.getElementById("nama");
-
 		if (nama.value.length >= 2) {
-
 			document.getElementById("pasien-list").innerHTML = "Loading...";
-
 			let ajax = new XMLHttpRequest();
-
-			ajax.open("POST", "/popup/pasien", true);
+			ajax.open("POST", "/autocomplete/pasien", true);
 			ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 			ajax.send(JSON.stringify({
 				"nama": nama.value
 			}));
-
 			ajax.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					let data = JSON.parse(this.responseText);
 					let html = "";
 					for (let i = 0; i < data.length; i++) {
-						html += `<p onclick="choose_pasien(this);" 
+						html += `<p onclick="pasien_click(this);" 
 										data-id="${data[i]["id"]}"
 										data-nama="${data[i]["nama"]}"
 										data-jenkel="${data[i]["jenkel"]}"
@@ -137,17 +131,14 @@ if (!defined("APP_VER")) {
 		}
 	}
 
-	function choose_pasien(self) {
-
+	function pasien_click(self) {
 		let pasien_id = self.getAttribute("data-id");
 		let nama = self.getAttribute("data-nama");
 		let jenkel = self.getAttribute("data-jenkel");
 		let lahir = self.getAttribute("data-lahir");
 		let alamat = self.getAttribute("data-alamat");
-
 		document.getElementById("pasien_id").value = pasien_id;
 		document.getElementById("nama").value = nama;
-
 		if (jenkel == 'l') {
 			document.getElementById("jenkel_l").checked = true;
 			document.getElementById("jenkel_p").checked = false;
@@ -155,10 +146,8 @@ if (!defined("APP_VER")) {
 			document.getElementById("jenkel_l").checked = false;
 			document.getElementById("jenkel_p").checked = true;
 		}
-
 		document.getElementById("lahir").value = lahir;
 		document.getElementById("alamat").value = alamat;
-
 		document.getElementById("pasien-list").innerHTML = "";
 	}
 </script>

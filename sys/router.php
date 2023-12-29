@@ -25,15 +25,12 @@ function post($path, $callback) {
 
 function dispatch() {
 	global $routes;
-
 	$method = strtoupper($_SERVER["REQUEST_METHOD"]);
-
 	if (isset($_SERVER["PATH_INFO"])) {
 		$path = rtrim($_SERVER["PATH_INFO"], "/");
 	} else {
 		$path = "/";
 	}
-
 	foreach ($routes as $route) {
 		if ($route["method"] !== $method) {
 			continue;
@@ -49,7 +46,6 @@ function dispatch() {
 			}
 		}
 	}
-
 	return [
 		"view" => "notfound",
 		"title" => "404"

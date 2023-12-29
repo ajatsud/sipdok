@@ -6,8 +6,7 @@ if (!defined("APP_VER")) {
 
 ?>
 
-<!-- end content -->
-</div><!-- ./container -->
+</div>
 </body>
 
 </html>

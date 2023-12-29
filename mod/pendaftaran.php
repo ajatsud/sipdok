@@ -5,14 +5,11 @@ if (!defined("APP_VER")) {
 }
 
 get("/pendaftaran", function () {
-
 	if (!is_login()) {
 		redirect_to("/user/login");
 	}
-
 	$inputs = [];
 	$errors = [];
-
 	return [
 		"view" => "pendaftaran_form",
 		"title" => "Pendaftaran",

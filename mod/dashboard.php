@@ -5,11 +5,9 @@ if (!defined("APP_VER")) {
 }
 
 get("/dashboard", function () {
-
 	if (!is_login()) {
 		redirect_to("/user/login");
 	}
-
 	return [
 		"view" => "dashboard_index",
 		"title" => "Dashboard",
