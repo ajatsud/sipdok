@@ -44,7 +44,7 @@ if (!defined("APP_VER")) {
 								<td><?= jenkel_display_format($pasien["jenkel"]) ?></td>
 								<td><?= tanggal_display_format($pasien["lahir"]) ?></td>
 								<td><?= $pasien["alamat"] ?></td>
-								<td><a href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a></td>
+								<td><a class="button" href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a></td>
 							</tr>
 							<?php $row_no++; ?>
 						<?php endforeach; ?>

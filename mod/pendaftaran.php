@@ -75,7 +75,7 @@ get("/pendaftaran/form", function () {
 	}
 	return [
 		"view" => "pendaftaran_form",
-		"title" => "Pendaftaran",
+		"title" => "Pendaftaran Form",
 		"menu" => "pendaftaran",
 		"inputs" => $inputs,
 		"errors" => $errors

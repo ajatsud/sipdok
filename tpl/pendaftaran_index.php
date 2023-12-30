@@ -48,7 +48,7 @@ if (!defined("APP_VER")) {
 								<td><?= jenkel_display_format($pendaftaran["jenkel"]) ?></td>
 								<td><?= tanggal_display_format($pendaftaran["lahir"]) ?></td>
 								<td><?= $pendaftaran["alamat"] ?></td>
-								<td><a href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a></td>
+								<td><a class="button" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a></td>
 							</tr>
 							<?php $row_no++; ?>
 						<?php endforeach; ?>
