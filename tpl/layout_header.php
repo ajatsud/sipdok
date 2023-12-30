@@ -29,14 +29,14 @@ if (!defined("APP_VER")) {
 						<p class="logo-des"><small>Sistem Informasi Praktik Dokter</small></p>
 					</div>
 					<div class="nav">
-						<a href="/" <?= ($menu == "dashboard") ? 'class="active"' : ""  ?>>Dashboard</a>
-						<a href="/pasien" <?= ($menu == "pasien") ? 'class="active"' : ""  ?>>Pasien</a>
-						<a href="/pendaftaran" <?= ($menu == "pendaftaran") ? 'class="active"' : ""  ?>>Pendaftaran</a>
-						<a href="/antrian" <?= ($menu == "antrian") ? 'class="active"' : ""  ?>>Antrian</a>
-						<a href="/pemeriksaan" <?= ($menu == "pemeriksaan") ? 'class="active"' : ""  ?>>Pemeriksaan</a>
-						<a href="/kasir" <?= ($menu == "kasir") ? 'class="active"' : ""  ?>>Kasir</a>
-						<a href="/laporan" <?= ($menu == "laporan") ? 'class="active"' : ""  ?>>Laporan</a>
-						<a href="/user/logout" <?= ($menu == "user") ? 'class="active"' : ""  ?>>Logout</a>
+						<a class="button <?= ($menu == "dashboard") ? "button-success" : ""  ?>" href="/">Dashboard</a>
+						<a class="button <?= ($menu == "pasien") ? "button-success" : ""  ?>" href="/pasien">Pasien</a>
+						<a class="button <?= ($menu == "pendaftaran") ? "button-success" : ""  ?>" href="/pendaftaran">Pendaftaran</a>
+						<a class="button <?= ($menu == "antrian") ? "button-success" : ""  ?>" href="/antrian">Antrian</a>
+						<a class="button <?= ($menu == "pemeriksaan") ? "button-success" : ""  ?>" href="/pemeriksaan">Pemeriksaan</a>
+						<a class="button <?= ($menu == "kasir") ? "button-success" : ""  ?>" href="/kasir">Kasir</a>
+						<a class="button <?= ($menu == "laporan") ? "button-success" : ""  ?>" href="/laporan">Laporan</a>
+						<a class="button <?= ($menu == "user") ? "button-success" : ""  ?>" href="/user/logout">Logout</a>
 					</div>
 				</div>
 			</div>

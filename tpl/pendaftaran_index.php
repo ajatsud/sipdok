@@ -27,13 +27,12 @@ if (!defined("APP_VER")) {
 						<tr>
 							<th>No</th>
 							<th>ID</th>
-							<th>Pasien ID</th>
 							<th>Keluhan</th>
 							<th>Nama</th>
 							<th>Jenkel</th>
 							<th>Lahir</th>
 							<th>Alamat</th>
-							<th>Edit</th>
+							<th>&nbsp;</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -42,13 +41,15 @@ if (!defined("APP_VER")) {
 							<tr>
 								<td><?= $row_no ?></td>
 								<td><?= $pendaftaran["id"] ?></td>
-								<td><?= $pendaftaran["pasien_id"] ?></td>
 								<td><?= $pendaftaran["keluhan"] ?></td>
 								<td><?= $pendaftaran["nama"] ?></td>
 								<td><?= jenkel_display_format($pendaftaran["jenkel"]) ?></td>
 								<td><?= tanggal_display_format($pendaftaran["lahir"]) ?></td>
 								<td><?= $pendaftaran["alamat"] ?></td>
-								<td><a class="button" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a></td>
+								<td class="td-button-container">
+									<a class="button button-warning" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a>
+									<a class="button button-danger" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Hapus</a>
+								</td>
 							</tr>
 							<?php $row_no++; ?>
 						<?php endforeach; ?>
