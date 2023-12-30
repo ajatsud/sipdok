@@ -167,8 +167,27 @@ post("/pasien/save", function () {
 		if ($is_new) {
 			if (mysqli_autocommit($mysqli, false)) {
 				$ret = mysqli_query($mysqli, sprintf(
-					"insert into pasien (id, nama, jenkel, lahir, alamat, ins_id, ins_dtm, upd_id, upd_dtm) 
-					values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+					"insert into pasien (
+						id,
+						nama,
+						jenkel,
+						lahir,
+						alamat,
+						ins_id,
+						ins_dtm,
+						upd_id,
+						upd_dtm
+					) values (
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s',
+						'%s'
+					)",
 					mysqli_real_escape_string($mysqli, $inputs["id"]),
 					mysqli_real_escape_string($mysqli, $inputs["nama"]),
 					mysqli_real_escape_string($mysqli, $inputs["jenkel"]),
@@ -184,7 +203,6 @@ post("/pasien/save", function () {
 				}
 				if ($ret) {
 					mysqli_commit($mysqli);
-					redirect_to("/pasien");
 				} else {
 					mysqli_rollback($mysqli);
 				}
@@ -192,7 +210,14 @@ post("/pasien/save", function () {
 		} else {
 			if (mysqli_autocommit($mysqli, false)) {
 				$ret = mysqli_query($mysqli, sprintf(
-					"update pasien set nama = '%s', jenkel = '%s', lahir='%s', alamat = '%s', upd_id = '%s', upd_dtm = '%s' where id = '%s'",
+					"update pasien 
+						set nama = '%s',
+						jenkel = '%s',
+						lahir='%s',
+						alamat = '%s',
+						upd_id = '%s',
+						upd_dtm = '%s'
+				 	where id = '%s'",
 					mysqli_real_escape_string($mysqli, $inputs["nama"]),
 					mysqli_real_escape_string($mysqli, $inputs["jenkel"]),
 					mysqli_real_escape_string($mysqli, $inputs["lahir"]),
@@ -206,7 +231,6 @@ post("/pasien/save", function () {
 				}
 				if ($ret) {
 					mysqli_commit($mysqli);
-					redirect_to("/pasien");
 				} else {
 					mysqli_rollback($mysqli);
 				}

@@ -9,7 +9,7 @@ if (!defined("APP_VER")) {
 <div class="row">
 	<div class="twelve columns">
 		<div class="breadcrumb">
-			<h2>Pendaftaran</h2>
+			<h2>Pendaftaran Entri</h2>
 			<p><a href="/pendaftaran" class="button">Pendaftaran List</a></p>
 		</div>
 	</div>

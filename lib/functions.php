@@ -31,3 +31,14 @@ function jenkel_display_format($jenkel) {
 function tanggal_display_format($date) { // "2023-12-30"
 	return date("d F Y", strtotime($date));
 }
+
+function d($var) {
+	echo "<pre>";
+	var_dump($var);
+	echo "</pre>";
+}
+
+function dd($var) {
+	d($var);
+	exit;
+}
