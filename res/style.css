@@ -489,7 +489,7 @@ thead tr {
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f9f9f9;
 }
 
 th,
@@ -498,7 +498,7 @@ td {
 }
 
 tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #f9f9f9;
 }
 
 tbody tr:last-of-type {
