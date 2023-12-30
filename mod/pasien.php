@@ -203,6 +203,7 @@ post("/pasien/save", function () {
 				}
 				if ($ret) {
 					mysqli_commit($mysqli);
+					flash("success", "Berhasil", "Data pasien berhasil disimpan");
 				} else {
 					mysqli_rollback($mysqli);
 				}
@@ -231,6 +232,7 @@ post("/pasien/save", function () {
 				}
 				if ($ret) {
 					mysqli_commit($mysqli);
+					flash("success", "Berhasil", "Data pasien berhasil diperbarui");
 				} else {
 					mysqli_rollback($mysqli);
 				}

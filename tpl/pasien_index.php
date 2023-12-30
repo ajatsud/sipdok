@@ -45,8 +45,8 @@ if (!defined("APP_VER")) {
 								<td><?= tanggal_display_format($pasien["lahir"]) ?></td>
 								<td><?= $pasien["alamat"] ?></td>
 								<td class="td-button-container">
-									<a class="button button-warning" href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a>
-									<a class="button button-danger" href="/pasien/edit/<?= $pasien["id"] ?>">Hapus</a>
+									<a class="button" href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a>
+									<a class="button" href="/pasien/edit/<?= $pasien["id"] ?>">Hapus</a>
 								</td>
 							</tr>
 							<?php $row_no++; ?>

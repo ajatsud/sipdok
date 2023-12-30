@@ -353,6 +353,7 @@ post("/pendaftaran/save", function () {
 			}
 			if ($ret_pasien && $ret_pendaftaran) {
 				mysqli_commit($mysqli);
+				flash("success", "Berhasil", "Data pendaftaran berhasil disimpan");
 			} else {
 				mysqli_rollback($mysqli);
 			}

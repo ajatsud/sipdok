@@ -32,6 +32,26 @@ function tanggal_display_format($date) { // "2023-12-30"
 	return date("d F Y", strtotime($date));
 }
 
+function flash($icon = "", $title = "", $message = "") {
+	if ($icon !== "" && $title !== "" && $message !== "") {
+		if (isset($_SESSION["flash"])) {
+			unset($_SESSION["flash"]);
+		}
+		$_SESSION["flash"] = [
+			"icon" => $icon,
+			"title" => $title,
+			"message" => $message
+		];
+	} else {
+		if (!isset($_SESSION["flash"])) {
+			return [];
+		}
+		$flash = $_SESSION["flash"];
+		unset($_SESSION["flash"]);
+		return $flash;
+	}
+}
+
 function d($var) {
 	echo "<pre>";
 	var_dump($var);
