@@ -9,9 +9,9 @@ function render($data = []) {
 		$$k = $v;
 	}
 
-	$header = APP_DIR . APP_SEP . ".." . APP_SEP . "tpl" . APP_SEP . "layout_header.php";
-	$layout = APP_DIR . APP_SEP . ".." . APP_SEP . "tpl" . APP_SEP . $view . ".php";
-	$footer = APP_DIR . APP_SEP . ".." . APP_SEP . "tpl" . APP_SEP . "layout_footer.php";
+	$header = APP_DIR . APP_SEP . "tpl" . APP_SEP . "layout_header.php";
+	$layout = APP_DIR . APP_SEP . "tpl" . APP_SEP . $view . ".php";
+	$footer = APP_DIR . APP_SEP . "tpl" . APP_SEP . "layout_footer.php";
 
 	if (file_exists($header) && file_exists($layout) && file_exists($footer)) {
 		include $header;
@@ -36,7 +36,7 @@ function request() {
 }
 
 function response($path) {
-	$file = APP_DIR . APP_SEP . ".." . APP_SEP . "mod" . APP_SEP . $path . ".php";
+	$file = APP_DIR . APP_SEP . "mod" . APP_SEP . $path . ".php";
 	if (file_exists($file)) {
 		include $file;
 	} else {

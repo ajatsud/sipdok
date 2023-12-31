@@ -14,5 +14,3 @@ mysqli_set_charset($mysqli, "utf8mb4");
 if (mysqli_errno($mysqli)) {
 	exit(mysqli_error($mysqli));
 }
-
-session_start();
