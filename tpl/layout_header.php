@@ -1,6 +1,6 @@
 <?php
 
-if (!defined("APP_VER")) {
+if (!defined("VER")) {
 	exit("No direct script access allowed");
 }
 
@@ -13,7 +13,7 @@ if (!defined("APP_VER")) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?= $title ?></title>
-	<link href="/res/style.css?version=<?= filemtime(APP_DIR . APP_SEP . "res" . APP_SEP .  'style.css') ?>" rel="stylesheet">
+	<link href="/res/style.css?version=<?= filemtime(DIR . SEP . "res" . SEP .  'style.css') ?>" rel="stylesheet">
 </head>
 
 <body>

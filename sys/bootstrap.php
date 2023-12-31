@@ -1,6 +1,6 @@
 <?php
 
-if (!defined("APP_VER")) {
+if (!defined("VER")) {
 	exit("No direct script access allowed");
 }
 
@@ -9,9 +9,9 @@ function render($data = []) {
 		$$k = $v;
 	}
 
-	$header = APP_DIR . APP_SEP . "tpl" . APP_SEP . "layout_header.php";
-	$layout = APP_DIR . APP_SEP . "tpl" . APP_SEP . $view . ".php";
-	$footer = APP_DIR . APP_SEP . "tpl" . APP_SEP . "layout_footer.php";
+	$header = DIR . SEP . "tpl" . SEP . "layout_header.php";
+	$layout = DIR . SEP . "tpl" . SEP . $view . ".php";
+	$footer = DIR . SEP . "tpl" . SEP . "layout_footer.php";
 
 	if (file_exists($header) && file_exists($layout) && file_exists($footer)) {
 		include $header;
@@ -36,7 +36,7 @@ function request() {
 }
 
 function response($path) {
-	$file = APP_DIR . APP_SEP . "mod" . APP_SEP . $path . ".php";
+	$file = DIR . SEP . "mod" . SEP . $path . ".php";
 	if (file_exists($file)) {
 		include $file;
 	} else {
