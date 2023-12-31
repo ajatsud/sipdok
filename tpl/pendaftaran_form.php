@@ -1,7 +1,6 @@
 <?php
 
-if (!defined("APP_VER"))
-{
+if (!defined("APP_VER")) {
 	exit("No direct script access allowed");
 }
 
@@ -100,12 +99,10 @@ if (!defined("APP_VER"))
 <script>
 	function autocomplete_pasien() {
 		let nama = document.getElementById("nama");
-
 		if (nama.value.length >= 2) {
 			document.getElementById("pasien-list").innerHTML = "Loading...";
 
 			let ajax = new XMLHttpRequest();
-
 			ajax.open("POST", "/autocomplete/pasien", true);
 			ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
@@ -118,12 +115,10 @@ if (!defined("APP_VER"))
 					let data = JSON.parse(this.responseText);
 					let html = "";
 					let color = 0;
-
 					for (let i = 0; i < data.length; i++) {
 						if (color > 5) {
 							color = 0;
 						}
-
 						color++;
 
 						html += `<p onclick="click_pasien(this);"
@@ -151,8 +146,10 @@ if (!defined("APP_VER"))
 		let jenkel = self.getAttribute("data-jenkel");
 		let lahir = self.getAttribute("data-lahir");
 		let alamat = self.getAttribute("data-alamat");
+
 		document.getElementById("pasien_id").value = pasien_id;
 		document.getElementById("nama").value = nama;
+
 		if (jenkel == 'l') {
 			document.getElementById("jenkel_l").checked = true;
 			document.getElementById("jenkel_p").checked = false;
@@ -160,8 +157,10 @@ if (!defined("APP_VER"))
 			document.getElementById("jenkel_l").checked = false;
 			document.getElementById("jenkel_p").checked = true;
 		}
+
 		document.getElementById("lahir").value = lahir;
 		document.getElementById("alamat").value = alamat;
+
 		document.getElementById("pasien-list").innerHTML = "";
 	}
 </script>

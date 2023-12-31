@@ -1,7 +1,6 @@
 <?php
 
-if (!defined("APP_VER"))
-{
+if (!defined("APP_VER")) {
 	exit("No direct script access allowed");
 }
 
