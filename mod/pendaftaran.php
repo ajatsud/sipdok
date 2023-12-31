@@ -34,7 +34,7 @@ get("/pendaftaran", function ()
 				    from pasien b
 				   where b.id = a.pasien_id ) alamat
 			from pendaftaran a
-			order by a.id desc
+		   order by a.id desc
 		"
 	);
 
@@ -119,18 +119,18 @@ get("/pendaftaran/edit/:id", function ($id)
 				a.keluhan,
 				( select b.nama
 					from pasien b
-				where b.id = a.pasien_id ) nama,
+				   where b.id = a.pasien_id ) nama,
 				( select b.jenkel
 					from pasien b
-				where b.id = a.pasien_id ) jenkel,
+				   where b.id = a.pasien_id ) jenkel,
 				( select b.lahir
 					from pasien b
-				where b.id = a.pasien_id ) lahir,
+				   where b.id = a.pasien_id ) lahir,
 				( select b.alamat
 					from pasien b
-				where b.id = a.pasien_id ) alamat
-		from pendaftaran a
-		where a.id = '%s'",
+				   where b.id = a.pasien_id ) alamat
+		   from pendaftaran a
+		  where a.id = '%s'",
 		mysqli_real_escape_string($mysqli, $id)
 	));
 
@@ -178,135 +178,93 @@ post("/pendaftaran/save", function ()
 	$is_new_pendaftaran = false;
 	$is_new_pasien = false;
 
-	if (isset($_POST["id"]))
+
+	$id = isset($_POST["id"]) ? htmlentities(strip_tags(trim($_POST["id"]))) : "";
+
+	if (strlen($id) > 0)
 	{
-		$id = htmlentities(strip_tags(trim($_POST["id"])));
-
-		if (strlen($id) > 0)
-		{
-			$inputs["id"] = $id;
-		}
-		else
-		{
-			$is_new_pendaftaran = true;
-
-			$inputs["id"] = get_auto_id("pendaftaran", "RG");
-		}
+		$inputs["id"] = $id;
 	}
 	else
 	{
-		$errors["id"] = "ID Undefine";
+		$is_new_pendaftaran = true;
+
+		$inputs["id"] = get_auto_id("pendaftaran", "RG");
 	}
 
-	if (isset($_POST["pasien_id"]))
+
+	$pasien_id = isset($_POST["pasien_id"]) ? htmlentities(strip_tags(trim($_POST["pasien_id"]))) : "";
+
+	if (strlen($pasien_id) > 0)
 	{
-		$pasien_id = htmlentities(strip_tags(trim($_POST["pasien_id"])));
-
-		if (strlen($pasien_id) > 0)
-		{
-			$inputs["pasien_id"] = $pasien_id;
-		}
-		else
-		{
-			$is_new_pasien = true;
-
-			$inputs["pasien_id"] = get_auto_id("pasien", "PS");
-		}
+		$inputs["pasien_id"] = $pasien_id;
 	}
 	else
 	{
-		$errors["pasien_id"] = "Pasien ID Undefine";
+		$is_new_pasien = true;
+
+		$inputs["pasien_id"] = get_auto_id("pasien", "PS");
 	}
 
-	if (isset($_POST["nama"]))
-	{
-		$nama = htmlentities(strip_tags(trim($_POST["nama"])));
 
-		if (strlen($nama) > 0)
-		{
-			$inputs["nama"] = $nama;
-		}
-		else
-		{
-			$errors["nama"] = "Nama tidak boleh kosong";
-		}
+	$nama = isset($_POST["nama"]) ? htmlentities(strip_tags(trim($_POST["nama"]))) : "";
+
+	if (strlen($nama) > 0)
+	{
+		$inputs["nama"] = $nama;
 	}
 	else
 	{
-		$errors["nama"] = "Nama undefine";
+		$errors["nama"] = "Nama tidak boleh kosong";
 	}
 
-	if (isset($_POST["jenkel"]))
-	{
-		$jenkel = htmlentities(strip_tags(trim($_POST["jenkel"])));
+	$jenkel = isset($_POST["jenkel"]) ? htmlentities(strip_tags(trim($_POST["jenkel"]))) : "";
 
-		if (strlen($jenkel) > 0)
-		{
-			$inputs["jenkel"] = $jenkel;
-		}
-		else
-		{
-			$errors["jenkel"] = "Jenkel tidak boleh kosong";
-		}
+	if (strlen($jenkel) > 0)
+	{
+		$inputs["jenkel"] = $jenkel;
 	}
 	else
 	{
-		$errors["jenkel"] = "Jenkel harus dipilih";
+		$errors["jenkel"] = "Jenkel harus pilih salah satu";
 	}
 
-	if (isset($_POST["lahir"]))
-	{
-		$lahir = htmlentities(strip_tags(trim($_POST["lahir"])));
 
-		if (strlen($lahir) > 0)
-		{
-			$inputs["lahir"] = date("Y-m-d", strtotime($lahir));
-		}
-		else
-		{
-			$errors["lahir"] = "Tanggal lahir tidak boleh kosong";
-		}
+	$lahir = isset($_POST["lahir"]) ? htmlentities(strip_tags(trim($_POST["lahir"]))) : "";
+
+	if (strlen($lahir) > 0)
+	{
+		$inputs["lahir"] = date("Y-m-d", strtotime($lahir));
 	}
 	else
 	{
-		$errors["lahir"] = "Tanggal lahir undefine";
+		$errors["lahir"] = "Tanggal lahir tidak boleh kosong";
 	}
 
-	if (isset($_POST["alamat"]))
-	{
-		$alamat = htmlentities(strip_tags(trim($_POST["alamat"])));
 
-		if (strlen($alamat) > 0)
-		{
-			$inputs["alamat"] = $alamat;
-		}
-		else
-		{
-			$errors["alamat"] = "Alamat tidak boleh kosong";
-		}
+	$alamat = isset($_POST["alamat"]) ? htmlentities(strip_tags(trim($_POST["alamat"]))) : "";
+
+	if (strlen($alamat) > 0)
+	{
+		$inputs["alamat"] = $alamat;
 	}
 	else
 	{
-		$errors["alamat"] = "Alamat undefined";
+		$errors["alamat"] = "Alamat tidak boleh kosong";
 	}
 
-	if (isset($_POST["keluhan"]))
-	{
-		$keluhan = htmlentities(strip_tags(trim($_POST["keluhan"])));
 
-		if (strlen($keluhan) > 0)
-		{
-			$inputs["keluhan"] = $keluhan;
-		}
-		else
-		{
-			$errors["keluhan"] = "Keluhan tidak boleh kosong";
-		}
+	$keluhan = isset($_POST["keluhan"]) ? htmlentities(strip_tags(trim($_POST["keluhan"]))) : "";
+
+	if (strlen($keluhan) > 0)
+	{
+		$inputs["keluhan"] = $keluhan;
 	}
 	else
 	{
-		$errors["keluhan"] = "Keluhan undefined";
+		$errors["keluhan"] = "Keluhan tidak boleh kosong";
 	}
+
 
 	if (count($errors) == 0)
 	{
@@ -316,25 +274,11 @@ post("/pendaftaran/save", function ()
 			{
 				$ret_pasien = mysqli_query($mysqli, sprintf(
 					"insert into pasien (
-						id,
-						nama,
-						jenkel,
-						lahir,
-						alamat,
-						ins_id,
-						ins_dtm,
-						upd_id,
-						upd_dtm
+						id, nama, jenkel, lahir, alamat,
+						ins_id, ins_dtm, upd_id, upd_dtm
 					) values (
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s'
+						'%s', '%s', '%s', '%s', '%s',
+						'%s', '%s', '%s', '%s'
 					)",
 					mysqli_real_escape_string($mysqli, $inputs["pasien_id"]),
 					mysqli_real_escape_string($mysqli, $inputs["nama"]),
@@ -356,13 +300,9 @@ post("/pendaftaran/save", function ()
 			{
 				$ret_pasien = mysqli_query($mysqli, sprintf(
 					"update pasien 
-						set nama = '%s',
-						jenkel = '%s',
-						lahir = '%s',
-						alamat = '%s',
-						upd_id = '%s',
-						upd_dtm = '%s'
-				 	where id = '%s'",
+						set nama = '%s', jenkel = '%s', lahir = '%s', alamat = '%s',
+							upd_id = '%s', upd_dtm = '%s'
+				 	  where id = '%s'",
 					mysqli_real_escape_string($mysqli, $inputs["nama"]),
 					mysqli_real_escape_string($mysqli, $inputs["jenkel"]),
 					mysqli_real_escape_string($mysqli, $inputs["lahir"]),
@@ -381,21 +321,11 @@ post("/pendaftaran/save", function ()
 			{
 				$ret_pendaftaran = mysqli_query($mysqli, sprintf(
 					"insert into pendaftaran (
-						id, 
-						pasien_id,
-						keluhan,
-						ins_id,
-						ins_dtm,
-						upd_id,
-						upd_dtm
+						id, pasien_id, keluhan,
+						ins_id, ins_dtm, upd_id, upd_dtm
 					) values (
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s',
-						'%s'
+						'%s', '%s', '%s',
+						'%s', '%s', '%s', '%s'
 					)",
 					mysqli_real_escape_string($mysqli, $inputs["id"]),
 					mysqli_real_escape_string($mysqli, $inputs["pasien_id"]),
@@ -415,11 +345,9 @@ post("/pendaftaran/save", function ()
 			{
 				$ret_pendaftaran = mysqli_query($mysqli, sprintf(
 					"update pendaftaran
-						set pasien_id = '%s',
-						keluhan = '%s',
-						upd_id = '%s',
-						upd_dtm = '%s'
-					where id = '%s'
+						set pasien_id = '%s', keluhan = '%s',
+							upd_id = '%s', upd_dtm = '%s'
+					  where id = '%s'
 					",
 					mysqli_real_escape_string($mysqli, $inputs["pasien_id"]),
 					mysqli_real_escape_string($mysqli, $inputs["keluhan"]),
@@ -427,6 +355,7 @@ post("/pendaftaran/save", function ()
 					mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s")),
 					mysqli_real_escape_string($mysqli, $inputs["id"])
 				));
+
 				if (mysqli_errno($mysqli))
 				{
 					$errors[] = mysqli_error($mysqli);

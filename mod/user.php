@@ -47,41 +47,30 @@ post("/user/login/auth", function ()
 	$inputs = [];
 	$errors = [];
 
-	if (isset($_POST["username"]))
-	{
-		$username = htmlentities(strip_tags(trim($_POST["username"])));
 
-		if (strlen($username) > 0)
-		{
-			$inputs["username"] = $username;
-		}
-		else
-		{
-			$errors["username"] = "Username tidak boleh kosong";
-		}
+	$username = isset($_POST["username"]) ? htmlentities(strip_tags(trim($_POST["username"]))) : "";
+
+	if (strlen($username) > 0)
+	{
+		$inputs["username"] = $username;
 	}
 	else
 	{
-		$errors["username"] = "Username undefine";
+		$errors["username"] = "Username tidak boleh kosong";
 	}
 
-	if (isset($_POST["password"]))
-	{
-		$password = htmlentities(strip_tags(trim($_POST["password"])));
 
-		if (strlen($password) > 0)
-		{
-			$inputs["password"] = $password;
-		}
-		else
-		{
-			$errors["password"] = "Password tidak boleh kosong";
-		}
+	$password = isset($_POST["password"]) ? htmlentities(strip_tags(trim($_POST["password"]))) : "";
+
+	if (strlen($password) > 0)
+	{
+		$inputs["password"] = $password;
 	}
 	else
 	{
-		$errors["password"] = "Password undefine";
+		$errors["password"] = "Password tidak boleh kosong";
 	}
+
 
 	if (count($errors) == 0)
 	{

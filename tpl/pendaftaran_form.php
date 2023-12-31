@@ -1,6 +1,7 @@
 <?php
 
-if (!defined("APP_VER")) {
+if (!defined("APP_VER"))
+{
 	exit("No direct script access allowed");
 }
 
@@ -99,28 +100,41 @@ if (!defined("APP_VER")) {
 <script>
 	function autocomplete_pasien() {
 		let nama = document.getElementById("nama");
+
 		if (nama.value.length >= 2) {
 			document.getElementById("pasien-list").innerHTML = "Loading...";
+
 			let ajax = new XMLHttpRequest();
+
 			ajax.open("POST", "/autocomplete/pasien", true);
 			ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
 			ajax.send(JSON.stringify({
 				"nama": nama.value
 			}));
+
 			ajax.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					let data = JSON.parse(this.responseText);
 					let html = "";
+					let color = 0;
+
 					for (let i = 0; i < data.length; i++) {
-						html += `<p onclick="click_pasien(this);" 
+						if (color > 5) {
+							color = 0;
+						}
+
+						color++;
+
+						html += `<p onclick="click_pasien(this);"
 										data-id="${data[i]["id"]}"
 										data-nama="${data[i]["nama"]}"
 										data-jenkel="${data[i]["jenkel"]}"
 										data-lahir="${data[i]["lahir"]}"
 										data-alamat="${data[i]["alamat"]}">
-										<span class="color-1">${data[i]["id"]}</span>
-										<span class="color-2">${data[i]["nama"]}</span>
-										<span class="color-3">${data[i]["alamat"]}</span>
+										<span class="color-${color}">${data[i]["nama"]}</span>
+										<span class="color-${color}">( ${data[i]["jenkel"].toUpperCase()} )</span>
+										<span class="color-${color}">${data[i]["alamat"]}</span>
 									</p>`;
 					}
 					document.getElementById("pasien-list").innerHTML = html;

@@ -15,18 +15,16 @@ post("/autocomplete/pasien", function ()
 
 	$inputs = json_decode(file_get_contents("php://input"), true);
 
-	if (isset($inputs["nama"]))
-	{
-		$nama = htmlentities(strip_tags(trim($inputs["nama"])));
 
-		if (strlen($nama >= 2))
-		{
-			$inputs["nama"] = $nama;
-		}
-		else
-		{
-			$errors["nama"] = "Nama harus sama dengan 2 atau lebih karakter";
-		}
+	$nama = isset($inputs["nama"]) ? $inputs["nama"] : "";
+
+	if (strlen($nama) >= 2)
+	{
+		$inputs["nama"] = $nama;
+	}
+	else
+	{
+		$errors["nama"] = "Nama minimal 2 karakter";
 	}
 
 	$pasiens = [];
