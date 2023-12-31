@@ -1,19 +1,15 @@
 <?php
 
-if (!defined("APP_VER"))
-{
+if (!defined("APP_VER")) {
 	exit("No direct script access allowed");
 }
 
-get("/pendaftaran", function ()
-{
-	if (!is_login())
-	{
+get("/pendaftaran", function () {
+	if (!is_login()) {
 		redirect_to("/user/login");
 	}
 
 	global $mysqli;
-
 	$errors = [];
 
 	$res = mysqli_query(
@@ -38,19 +34,15 @@ get("/pendaftaran", function ()
 		"
 	);
 
-	if (mysqli_errno($mysqli))
-	{
+	if (mysqli_errno($mysqli)) {
 		$errors[] = mysqli_error($mysqli);
 	}
 
 	$pendaftarans = [];
 
-	if ($res)
-	{
-		if (mysqli_num_rows($res) > 0)
-		{
-			while ($row = mysqli_fetch_assoc($res))
-			{
+	if ($res) {
+		if (mysqli_num_rows($res) > 0) {
+			while ($row = mysqli_fetch_assoc($res)) {
 				$pendaftarans[] = [
 					"id" => $row["id"],
 					"pasien_id" => $row["pasien_id"],
@@ -73,24 +65,20 @@ get("/pendaftaran", function ()
 	];
 });
 
-get("/pendaftaran/form", function ()
-{
-	if (!is_login())
-	{
+get("/pendaftaran/form", function () {
+	if (!is_login()) {
 		redirect_to("/user/login");
 	}
 
 	$inputs = [];
 	$errors = [];
 
-	if (isset($_SESSION["inputs"]))
-	{
+	if (isset($_SESSION["inputs"])) {
 		$inputs = $_SESSION["inputs"];
 		unset($_SESSION["inputs"]);
 	}
 
-	if (isset($_SESSION["errors"]))
-	{
+	if (isset($_SESSION["errors"])) {
 		$errors = $_SESSION["errors"];
 		unset($_SESSION["errors"]);
 	}
@@ -104,8 +92,7 @@ get("/pendaftaran/form", function ()
 	];
 });
 
-get("/pendaftaran/edit/:id", function ($id)
-{
+get("/pendaftaran/edit/:id", function ($id) {
 	global $mysqli;
 
 	$inputs = [];
@@ -134,17 +121,13 @@ get("/pendaftaran/edit/:id", function ($id)
 		mysqli_real_escape_string($mysqli, $id)
 	));
 
-	if (mysqli_errno($mysqli))
-	{
+	if (mysqli_errno($mysqli)) {
 		$errors[] = mysqli_error($mysqli);
 	}
 
-	if ($res)
-	{
-		if (mysqli_num_rows($res) == 1)
-		{
-			if ($row = mysqli_fetch_assoc($res))
-			{
+	if ($res) {
+		if (mysqli_num_rows($res) == 1) {
+			if ($row = mysqli_fetch_assoc($res)) {
 				$inputs["id"] = $row["id"];
 				$inputs["pasien_id"] = $row["pasien_id"];
 				$inputs["keluhan"] = $row["keluhan"];
@@ -163,10 +146,8 @@ get("/pendaftaran/edit/:id", function ($id)
 });
 
 
-post("/pendaftaran/save", function ()
-{
-	if (!is_login())
-	{
+post("/pendaftaran/save", function () {
+	if (!is_login()) {
 		redirect_to("/user/login");
 	}
 
@@ -178,100 +159,60 @@ post("/pendaftaran/save", function ()
 	$is_new_pendaftaran = false;
 	$is_new_pasien = false;
 
-
 	$id = isset($_POST["id"]) ? htmlentities(strip_tags(trim($_POST["id"]))) : "";
-
-	if (strlen($id) > 0)
-	{
+	if (strlen($id) > 0) {
 		$inputs["id"] = $id;
-	}
-	else
-	{
+	} else {
 		$is_new_pendaftaran = true;
-
 		$inputs["id"] = get_auto_id("pendaftaran", "RG");
 	}
 
-
 	$pasien_id = isset($_POST["pasien_id"]) ? htmlentities(strip_tags(trim($_POST["pasien_id"]))) : "";
-
-	if (strlen($pasien_id) > 0)
-	{
+	if (strlen($pasien_id) > 0) {
 		$inputs["pasien_id"] = $pasien_id;
-	}
-	else
-	{
+	} else {
 		$is_new_pasien = true;
-
 		$inputs["pasien_id"] = get_auto_id("pasien", "PS");
 	}
 
-
 	$nama = isset($_POST["nama"]) ? htmlentities(strip_tags(trim($_POST["nama"]))) : "";
-
-	if (strlen($nama) > 0)
-	{
+	if (strlen($nama) > 0) {
 		$inputs["nama"] = $nama;
-	}
-	else
-	{
+	} else {
 		$errors["nama"] = "Nama tidak boleh kosong";
 	}
 
 	$jenkel = isset($_POST["jenkel"]) ? htmlentities(strip_tags(trim($_POST["jenkel"]))) : "";
-
-	if (strlen($jenkel) > 0)
-	{
+	if (strlen($jenkel) > 0) {
 		$inputs["jenkel"] = $jenkel;
-	}
-	else
-	{
+	} else {
 		$errors["jenkel"] = "Jenkel harus pilih salah satu";
 	}
 
-
 	$lahir = isset($_POST["lahir"]) ? htmlentities(strip_tags(trim($_POST["lahir"]))) : "";
-
-	if (strlen($lahir) > 0)
-	{
+	if (strlen($lahir) > 0) {
 		$inputs["lahir"] = date("Y-m-d", strtotime($lahir));
-	}
-	else
-	{
+	} else {
 		$errors["lahir"] = "Tanggal lahir tidak boleh kosong";
 	}
 
-
 	$alamat = isset($_POST["alamat"]) ? htmlentities(strip_tags(trim($_POST["alamat"]))) : "";
-
-	if (strlen($alamat) > 0)
-	{
+	if (strlen($alamat) > 0) {
 		$inputs["alamat"] = $alamat;
-	}
-	else
-	{
+	} else {
 		$errors["alamat"] = "Alamat tidak boleh kosong";
 	}
 
-
 	$keluhan = isset($_POST["keluhan"]) ? htmlentities(strip_tags(trim($_POST["keluhan"]))) : "";
-
-	if (strlen($keluhan) > 0)
-	{
+	if (strlen($keluhan) > 0) {
 		$inputs["keluhan"] = $keluhan;
-	}
-	else
-	{
+	} else {
 		$errors["keluhan"] = "Keluhan tidak boleh kosong";
 	}
 
-
-	if (count($errors) == 0)
-	{
-		if (mysqli_autocommit($mysqli, false))
-		{
-			if ($is_new_pasien)
-			{
+	if (count($errors) == 0) {
+		if (mysqli_autocommit($mysqli, false)) {
+			if ($is_new_pasien) {
 				$ret_pasien = mysqli_query($mysqli, sprintf(
 					"insert into pasien (
 						id, nama, jenkel, lahir, alamat,
@@ -291,13 +232,10 @@ post("/pendaftaran/save", function ()
 					mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s"))
 				));
 
-				if (mysqli_errno($mysqli))
-				{
+				if (mysqli_errno($mysqli)) {
 					$errors[] = mysqli_error($mysqli);
 				}
-			}
-			else
-			{
+			} else {
 				$ret_pasien = mysqli_query($mysqli, sprintf(
 					"update pasien 
 						set nama = '%s', jenkel = '%s', lahir = '%s', alamat = '%s',
@@ -312,13 +250,11 @@ post("/pendaftaran/save", function ()
 					mysqli_real_escape_string($mysqli, $inputs["pasien_id"])
 				));
 
-				if (mysqli_errno($mysqli))
-				{
+				if (mysqli_errno($mysqli)) {
 					$errors[] = mysqli_error($mysqli);
 				}
 			}
-			if ($is_new_pendaftaran)
-			{
+			if ($is_new_pendaftaran) {
 				$ret_pendaftaran = mysqli_query($mysqli, sprintf(
 					"insert into pendaftaran (
 						id, pasien_id, keluhan,
@@ -336,13 +272,10 @@ post("/pendaftaran/save", function ()
 					mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s"))
 				));
 
-				if (mysqli_errno($mysqli))
-				{
+				if (mysqli_errno($mysqli)) {
 					$errors[] = mysqli_error($mysqli);
 				}
-			}
-			else
-			{
+			} else {
 				$ret_pendaftaran = mysqli_query($mysqli, sprintf(
 					"update pendaftaran
 						set pasien_id = '%s', keluhan = '%s',
@@ -356,38 +289,27 @@ post("/pendaftaran/save", function ()
 					mysqli_real_escape_string($mysqli, $inputs["id"])
 				));
 
-				if (mysqli_errno($mysqli))
-				{
+				if (mysqli_errno($mysqli)) {
 					$errors[] = mysqli_error($mysqli);
 				}
 			}
 
-			if ($ret_pasien && $ret_pendaftaran)
-			{
+			if ($ret_pasien && $ret_pendaftaran) {
 				mysqli_commit($mysqli);
-
 				flash("success", "Berhasil", "Data pendaftaran berhasil disimpan");
-			}
-			else
-			{
+			} else {
 				mysqli_rollback($mysqli);
 			}
 		}
-	}
-	else
-	{
-		if ($is_new_pendaftaran)
-		{
-			if (isset($inputs["id"]))
-			{
+	} else {
+		if ($is_new_pendaftaran) {
+			if (isset($inputs["id"])) {
 				unset($inputs["id"]);
 			}
 		}
 
-		if ($is_new_pasien)
-		{
-			if (isset($inputs["pasien_id"]))
-			{
+		if ($is_new_pasien) {
+			if (isset($inputs["pasien_id"])) {
 				unset($inputs["pasien_id"]);
 			}
 		}
