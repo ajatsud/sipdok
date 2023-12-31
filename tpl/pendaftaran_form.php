@@ -105,7 +105,6 @@ if (!defined("APP_VER")) {
 			let ajax = new XMLHttpRequest();
 			ajax.open("POST", "/autocomplete/pasien", true);
 			ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
 			ajax.send(JSON.stringify({
 				"nama": nama.value
 			}));
@@ -120,7 +119,6 @@ if (!defined("APP_VER")) {
 							color = 0;
 						}
 						color++;
-
 						html += `<p onclick="click_pasien(this);"
 										data-id="${data[i]["id"]}"
 										data-nama="${data[i]["nama"]}"
@@ -160,7 +158,6 @@ if (!defined("APP_VER")) {
 
 		document.getElementById("lahir").value = lahir;
 		document.getElementById("alamat").value = alamat;
-
 		document.getElementById("pasien-list").innerHTML = "";
 	}
 </script>
