@@ -1,6 +1,7 @@
 <?php
 
-if (!defined("APP_VER")) {
+if (!defined("APP_VER"))
+{
 	exit("No direct script access allowed");
 }
 
@@ -27,7 +28,6 @@ if (!defined("APP_VER")) {
 						<tr>
 							<th>No</th>
 							<th>ID</th>
-							<th>Pasien ID</th>
 							<th>Keluhan</th>
 							<th>Nama</th>
 							<th>Jenkel</th>
@@ -42,7 +42,6 @@ if (!defined("APP_VER")) {
 							<tr>
 								<td><?= $row_no ?></td>
 								<td><?= $pendaftaran["id"] ?></td>
-								<td><?= $pendaftaran["pasien_id"] ?></td>
 								<td><?= $pendaftaran["keluhan"] ?></td>
 								<td><?= $pendaftaran["nama"] ?></td>
 								<td><?= jenkel_display_format($pendaftaran["jenkel"]) ?></td>

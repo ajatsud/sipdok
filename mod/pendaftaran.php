@@ -189,29 +189,8 @@ post("/pendaftaran/save", function ()
 		else
 		{
 			$is_new_pendaftaran = true;
-			$prefix = "RG" . date("Ym");
 
-			$res = mysqli_query($mysqli, sprintf(
-				"select ifnull(max(substring(id, 9, 4)), 0) as seq_no from pendaftaran where substring(id, 1, 8) = '%s'",
-				mysqli_real_escape_string($mysqli, $prefix)
-			));
-
-			if (mysqli_errno($mysqli))
-			{
-				$errors[] = mysqli_error($mysqli);
-			}
-
-			if ($res)
-			{
-				if (mysqli_num_rows($res) == 1)
-				{
-					$row = mysqli_fetch_assoc($res);
-					$seq_no = (int) $row["seq_no"];
-					$seq_no++;
-					$seq_no_str = sprintf("%04d", $seq_no);
-					$inputs["id"] = $prefix . $seq_no_str; // RG2023120001
-				}
-			}
+			$inputs["id"] = get_auto_id("pendaftaran", "RG");
 		}
 	}
 	else
@@ -230,29 +209,8 @@ post("/pendaftaran/save", function ()
 		else
 		{
 			$is_new_pasien = true;
-			$prefix = "PS" . date("Ym");
 
-			$res = mysqli_query($mysqli, sprintf(
-				"select ifnull(max(substring(id, 9, 4)), 0) as seq_no from pasien where substring(id, 1, 8) = '%s'",
-				mysqli_real_escape_string($mysqli, $prefix)
-			));
-
-			if (mysqli_errno($mysqli))
-			{
-				$errors[] = mysqli_error($mysqli);
-			}
-
-			if ($res)
-			{
-				if (mysqli_num_rows($res) == 1)
-				{
-					$row = mysqli_fetch_assoc($res);
-					$seq_no = (int) $row["seq_no"];
-					$seq_no++;
-					$seq_no_str = sprintf("%04d", $seq_no);
-					$inputs["pasien_id"] = $prefix . $seq_no_str; // PS2023120001
-				}
-			}
+			$inputs["pasien_id"] = get_auto_id("pasien", "PS");
 		}
 	}
 	else
