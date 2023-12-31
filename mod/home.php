@@ -1,13 +1,18 @@
 <?php
 
-if (!defined("APP_VER")) {
+if (!defined("APP_VER"))
+{
 	exit("No direct script access allowed");
 }
 
-get("/", function () {
-	if (is_login()) {
+get("/", function ()
+{
+	if (is_login())
+	{
 		redirect_to("/dashboard");
-	} else {
+	}
+	else
+	{
 		redirect_to("/user/login");
 	}
 });
