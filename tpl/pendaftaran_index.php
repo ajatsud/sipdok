@@ -26,12 +26,10 @@ if (!defined("VER")) {
 					<thead>
 						<tr>
 							<th>No</th>
-							<th>ID</th>
-							<th>Keluhan</th>
 							<th>Nama</th>
-							<th>Jenkel</th>
 							<th>Lahir</th>
 							<th>Alamat</th>
+							<th>Keluhan</th>
 							<th>&nbsp;</th>
 						</tr>
 					</thead>
@@ -40,15 +38,14 @@ if (!defined("VER")) {
 						<?php foreach ($pendaftarans as $pendaftaran) : ?>
 							<tr>
 								<td><?= $row_no ?></td>
-								<td><?= $pendaftaran["id"] ?></td>
-								<td><?= $pendaftaran["keluhan"] ?></td>
-								<td><?= $pendaftaran["nama"] ?></td>
-								<td><?= jenkel_display_format($pendaftaran["jenkel"]) ?></td>
-								<td><?= tanggal_display_format($pendaftaran["lahir"]) ?></td>
+								<td><?= $pendaftaran["nama"] ?> <small>(<?= strtoupper($pendaftaran["jenkel"]) ?>)</small></td>
+								<td><?= tanggal_display_format_year($pendaftaran["lahir"]) ?></td>
 								<td><?= $pendaftaran["alamat"] ?></td>
+								<td><?= $pendaftaran["keluhan"] ?></td>
 								<td class="td-button-container">
-									<a class="button" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a>
-									<a class="button" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Hapus</a>
+									<a class="button button-success" href="/rekmed/periksa/<?= $pendaftaran["id"] ?>">Periksa</a>
+									<a class="button button-warning" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a>
+									<a class="button button-danger" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Hapus</a>
 								</td>
 							</tr>
 							<?php $row_no++; ?>

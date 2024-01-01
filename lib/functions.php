@@ -40,7 +40,11 @@ function jenkel_display_format($jenkel) {
 }
 
 function tanggal_display_format($date) { // "2023-12-30"
-	return date("d F Y", strtotime($date));
+	return date("d M Y", strtotime($date));
+}
+
+function tanggal_display_format_year($date) {
+	return date("Y", strtotime($date));
 }
 
 function flash($icon = "", $title = "", $message = "") {

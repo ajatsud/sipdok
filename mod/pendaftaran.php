@@ -30,7 +30,8 @@ get("/pendaftaran", function () {
 				    from pasien b
 				   where b.id = a.pasien_id ) alamat
 			from pendaftaran a
-		   order by a.id desc
+		 where a.id not in ( select b.pendaftaran_id from rekmed b )
+		 order by a.id desc
 		"
 	);
 

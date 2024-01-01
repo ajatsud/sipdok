@@ -26,7 +26,6 @@ if (!defined("VER")) {
 					<thead>
 						<tr>
 							<th>No</th>
-							<th>ID</th>
 							<th>Nama</th>
 							<th>Jenkel</th>
 							<th>Lahir</th>
@@ -39,14 +38,13 @@ if (!defined("VER")) {
 						<?php foreach ($pasiens as $pasien) : ?>
 							<tr>
 								<td><?= $row_no ?></td>
-								<td><?= $pasien["id"] ?></td>
 								<td><?= $pasien["nama"] ?></td>
 								<td><?= jenkel_display_format($pasien["jenkel"]) ?></td>
 								<td><?= tanggal_display_format($pasien["lahir"]) ?></td>
 								<td><?= $pasien["alamat"] ?></td>
 								<td class="td-button-container">
-									<a class="button" href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a>
-									<a class="button" href="/pasien/edit/<?= $pasien["id"] ?>">Hapus</a>
+									<a class="button button-warning" href="/pasien/edit/<?= $pasien["id"] ?>">Edit</a>
+									<a class="button button-danger" href="/pasien/edit/<?= $pasien["id"] ?>">Hapus</a>
 								</td>
 							</tr>
 							<?php $row_no++; ?>

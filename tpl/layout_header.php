@@ -32,10 +32,7 @@ if (!defined("VER")) {
 						<a <?= (isset($menu) && $menu == "dashboard") ? 'class="active"' : "" ?> href="/">Dashboard</a>
 						<a <?= (isset($menu) && $menu == "pasien") ? 'class="active"' : "" ?> href="/pasien">Pasien</a>
 						<a <?= (isset($menu) && $menu == "pendaftaran") ? 'class="active"' : "" ?> href="/pendaftaran">Pendaftaran</a>
-						<a <?= (isset($menu) && $menu == "antrian") ? 'class="active"' : "" ?> href="/antrian">Antrian</a>
-						<a <?= (isset($menu) && $menu == "pemeriksaan") ? 'class="active"' : "" ?> href="/pemeriksaan">Pemeriksaan</a>
-						<a <?= (isset($menu) && $menu == "kasir") ? 'class="active"' : "" ?> href="/kasir">Kasir</a>
-						<a <?= (isset($menu) && $menu == "laporan") ? 'class="active"' : "" ?> href="/laporan">Laporan</a>
+						<a <?= (isset($menu) && $menu == "rekmed") ? 'class="active"' : "" ?> href="/rekmed/form">Rekam Medis</a>
 						<a <?= (isset($menu) && $menu == "logout") ? 'class="active"' : "" ?> href="/user/logout">Logout</a>
 					</div>
 				</div>

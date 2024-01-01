@@ -72,7 +72,7 @@ if (!defined("VER")) {
 				<?php endif; ?>
 			</div>
 			<div class="six columns">
-				<label>Tanggal Lahir</label>
+				<label>Lahir</label>
 				<input type="date" name="lahir" id="lahir" value="<?= (isset($inputs["lahir"])) ? date("Y-m-d", strtotime($inputs["lahir"])) : date("Y-m-d") ?>" class="u-full-width">
 			</div>
 		</div>
