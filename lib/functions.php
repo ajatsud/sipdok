@@ -47,6 +47,10 @@ function tanggal_display_format_year($date) {
 	return date("Y", strtotime($date));
 }
 
+function display_year_lahir($date) {
+	return date("Y", strtotime($date));
+}
+
 function flash($icon = "", $title = "", $message = "") {
 	if ($icon !== "" && $title !== "" && $message !== "") {
 		if (isset($_SESSION["flash"])) {

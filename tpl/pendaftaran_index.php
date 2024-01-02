@@ -26,10 +26,11 @@ if (!defined("VER")) {
 					<thead>
 						<tr>
 							<th>No</th>
+							<th>ID</th>
 							<th>Nama</th>
+							<th>Keluhan</th>
 							<th>Lahir</th>
 							<th>Alamat</th>
-							<th>Keluhan</th>
 							<th>&nbsp;</th>
 						</tr>
 					</thead>
@@ -38,10 +39,11 @@ if (!defined("VER")) {
 						<?php foreach ($pendaftarans as $pendaftaran) : ?>
 							<tr>
 								<td><?= $row_no ?></td>
-								<td><?= $pendaftaran["nama"] ?> <small>(<?= strtoupper($pendaftaran["jenkel"]) ?>)</small></td>
-								<td><?= tanggal_display_format_year($pendaftaran["lahir"]) ?></td>
-								<td><?= $pendaftaran["alamat"] ?></td>
+								<td><?= $pendaftaran["id"] ?></td>
+								<td><?= $pendaftaran["nama"] ?> <small>(<?= $pendaftaran["jenkel"] ?>)</small></td>
 								<td><?= $pendaftaran["keluhan"] ?></td>
+								<td><?= display_year_lahir($pendaftaran["lahir"]) ?></td>
+								<td><?= $pendaftaran["alamat"] ?></td>
 								<td class="td-button-container">
 									<a class="button button-success" href="/rekmed/periksa/<?= $pendaftaran["id"] ?>">Periksa</a>
 									<a class="button button-warning" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a>
