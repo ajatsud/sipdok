@@ -43,10 +43,6 @@ function tanggal_display_format($date) { // "2023-12-30"
 	return date("d M Y", strtotime($date));
 }
 
-function tanggal_display_format_year($date) {
-	return date("Y", strtotime($date));
-}
-
 function display_year_lahir($date) {
 	return date("Y", strtotime($date));
 }

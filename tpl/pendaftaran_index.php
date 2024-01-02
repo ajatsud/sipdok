@@ -28,9 +28,9 @@ if (!defined("VER")) {
 							<th>No</th>
 							<th>ID</th>
 							<th>Nama</th>
-							<th>Keluhan</th>
 							<th>Lahir</th>
 							<th>Alamat</th>
+							<th>Keluhan</th>
 							<th>&nbsp;</th>
 						</tr>
 					</thead>
@@ -41,9 +41,9 @@ if (!defined("VER")) {
 								<td><?= $row_no ?></td>
 								<td><?= $pendaftaran["id"] ?></td>
 								<td><?= $pendaftaran["nama"] ?> <small>(<?= $pendaftaran["jenkel"] ?>)</small></td>
-								<td><?= $pendaftaran["keluhan"] ?></td>
 								<td><?= display_year_lahir($pendaftaran["lahir"]) ?></td>
 								<td><?= $pendaftaran["alamat"] ?></td>
+								<td><?= $pendaftaran["keluhan"] ?></td>
 								<td class="td-button-container">
 									<a class="button button-success" href="/rekmed/periksa/<?= $pendaftaran["id"] ?>">Periksa</a>
 									<a class="button button-warning" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a>
