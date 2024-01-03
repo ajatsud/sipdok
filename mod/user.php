@@ -23,7 +23,7 @@ get("/user/login", function () {
 	}
 
 	return [
-		"view" => "user_login_form",
+		"view" => "user_login",
 		"title" => "Login",
 		"inputs" => $inputs,
 		"errors" => $errors

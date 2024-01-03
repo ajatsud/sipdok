@@ -9,9 +9,20 @@ function render($data = []) {
 		$$k = $v;
 	}
 
-	$header = DIR . SEP . "tpl" . SEP . "layout_header.php";
-	$layout = DIR . SEP . "tpl" . SEP . $view . ".php";
-	$footer = DIR . SEP . "tpl" . SEP . "layout_footer.php";
+	$dir = "x";
+	$file = "x";
+
+	if (isset($view)) {
+		$view_arr = explode("_", $view);
+		if (count($view_arr) == 2) {
+			$dir = array_shift($view_arr);
+			$file = array_shift($view_arr);
+		}
+	}
+
+	$header = DIR . SEP . "tpl" . SEP . "layout" . SEP . "header.php";
+	$layout = DIR . SEP . "tpl" . SEP . $dir . SEP . $file . ".php";
+	$footer = DIR . SEP . "tpl" . SEP . "layout" . SEP . "footer.php";
 
 	if (file_exists($header) && file_exists($layout) && file_exists($footer)) {
 		include $header;
@@ -40,7 +51,7 @@ function response($path) {
 	if (file_exists($file)) {
 		include $file;
 	} else {
-		exit("Module " . $file . " not exists!");
+		redirect_to("/");
 	}
 
 	render(dispatch());

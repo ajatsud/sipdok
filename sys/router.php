@@ -50,7 +50,7 @@ function dispatch() {
 	}
 
 	return [
-		"view" => "notfound",
+		"view" => "page_notfound",
 		"title" => "404"
 	];
 }

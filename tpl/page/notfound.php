@@ -9,6 +9,6 @@ if (!defined("VER")) {
 <div class="row">
 	<div class="twelve columns">
 		<h2>404</h2>
-		<p>Halaman yang anda cari tidak ditemukan. &larr;<a href="/">Kembali</a></p>
+		<p>Halaman yang anda cari tidak ditemukan.</p>
 	</div>
 </div>
