@@ -26,7 +26,6 @@ function post($path, $callback) {
 function dispatch() {
 	global $routes;
 	$method = strtoupper($_SERVER["REQUEST_METHOD"]);
-
 	if (isset($_SERVER["PATH_INFO"])) {
 		$path = rtrim($_SERVER["PATH_INFO"], "/");
 	} else {

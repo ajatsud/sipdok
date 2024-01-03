@@ -6,7 +6,6 @@ if (!defined("VER")) {
 
 post("/autocomplete/pasien", function () {
 	global $mysqli;
-
 	header("Content-type: application/json");
 
 	$errors = [];
