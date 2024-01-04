@@ -155,7 +155,7 @@ if (!defined("VER")) {
 <div class="row">
   <div class="twelve columns">
     <div class="breadcrumb">
-      <h2>Histori Medis Entri</h2>
+      <h2>Histori Rekam Medis</h2>
       <p>100 Histori</p>
     </div>
   </div>
