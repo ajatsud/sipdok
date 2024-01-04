@@ -45,7 +45,7 @@ if (!defined("VER")) {
 								<td><?= $pendaftaran["alamat"] ?></td>
 								<td><?= $pendaftaran["keluhan"] ?></td>
 								<td class="td-button-container">
-									<a class="button button-success" href="/rekmed/periksa/<?= $pendaftaran["id"] ?>">Periksa</a>
+									<a class="button button-success" href="/rekmed/pendaftaran/<?= $pendaftaran["id"] ?>">Periksa</a>
 									<a class="button button-warning" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a>
 									<a class="button button-danger" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Hapus</a>
 								</td>
