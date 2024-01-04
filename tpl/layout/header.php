@@ -13,7 +13,6 @@ if (!defined("VER")) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?= $title ?></title>
-	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet">
 	<link href="/res/style.css?version=<?= filemtime(DIR . SEP . "res" . SEP .  'style.css') ?>" rel="stylesheet">
 </head>
 

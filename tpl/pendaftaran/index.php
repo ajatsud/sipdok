@@ -47,7 +47,7 @@ if (!defined("VER")) {
 								<td class="td-button-container">
 									<a class="button button-success" href="/rekmed/pendaftaran/<?= $pendaftaran["id"] ?>">Periksa</a>
 									<a class="button button-warning" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Edit</a>
-									<a class="button button-danger" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Hapus</a>
+									<!--<a class="button button-danger" href="/pendaftaran/edit/<?= $pendaftaran["id"] ?>">Hapus</a>-->
 								</td>
 							</tr>
 							<?php $row_no++; ?>
