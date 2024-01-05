@@ -1,8 +1,9 @@
 .container {
     position: relative;
     width: 100%;
+    max-width: 1024px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 20px;
     box-sizing: border-box;
 }
 
@@ -13,17 +14,7 @@
     box-sizing: border-box;
 }
 
-@media (min-width: 400px) {
-    .container {
-        width: 95%;
-        padding: 0;
-    }
-}
-
 @media (min-width: 550px) {
-    .container {
-        width: 95%;
-    }
 
     .column,
     .columns {
@@ -600,10 +591,6 @@ tbody tr {
 
 tbody tr:nth-of-type(even) {
     background-color: #f9f9f9;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
 }
 
 th, td {
