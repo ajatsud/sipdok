@@ -224,9 +224,7 @@
 }
 
 .active {
-    text-decoration: none;
-    background: linear-gradient(180deg, transparent 0, transparent 80%, #86CDFF 0, #79A6E8);
-    background: linear-gradient(180deg, transparent 0, transparent 80%, #86CDFF 0, #79A6E8);
+    text-decoration: underline;
     color: inherit;
 }
 
