@@ -12,7 +12,7 @@ get("/pasien", function () {
 	global $mysqli;
 	$errors = [];
 
-	$res = mysqli_query($mysqli, "select * from pasien order by id desc");
+	$res = mysqli_query($mysqli, "select * from pasien order by nama asc");
 	if (mysqli_errno($mysqli)) {
 		$errors[] = mysqli_error($mysqli);
 	}
@@ -151,8 +151,8 @@ post("/pasien/save", function () {
 	}
 
 	if (count($errors) == 0) {
-		if ($is_new) {
-			if (mysqli_autocommit($mysqli, false)) {
+		if (mysqli_autocommit($mysqli, false)) {
+			if ($is_new) {
 				$ret = mysqli_query($mysqli, sprintf(
 					"insert into pasien (
 						id, nama, jenkel, lahir, alamat,
@@ -175,16 +175,7 @@ post("/pasien/save", function () {
 				if (mysqli_errno($mysqli)) {
 					$errors[] = mysqli_error($mysqli);
 				}
-
-				if ($ret) {
-					mysqli_commit($mysqli);
-					flash("success", "Berhasil", "Data pasien berhasil disimpan");
-				} else {
-					mysqli_rollback($mysqli);
-				}
-			}
-		} else {
-			if (mysqli_autocommit($mysqli, false)) {
+			} else {
 				$ret = mysqli_query($mysqli, sprintf(
 					"update pasien 
 						set nama = '%s', jenkel = '%s', lahir='%s', alamat = '%s',
@@ -202,13 +193,13 @@ post("/pasien/save", function () {
 				if (mysqli_errno($mysqli)) {
 					$errors[] = mysqli_error($mysqli);
 				}
+			}
 
-				if ($ret) {
-					mysqli_commit($mysqli);
-					flash("success", "Berhasil", "Data pasien berhasil diperbarui");
-				} else {
-					mysqli_rollback($mysqli);
-				}
+			if ($ret) {
+				mysqli_commit($mysqli);
+				flash("success", "Berhasil", "Data pasien berhasil disimpan");
+			} else {
+				mysqli_rollback($mysqli);
 			}
 		}
 	} else {

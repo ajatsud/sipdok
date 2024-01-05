@@ -255,6 +255,7 @@ post("/pendaftaran/save", function () {
 					$errors[] = mysqli_error($mysqli);
 				}
 			}
+
 			if ($is_new_pendaftaran) {
 				$ret_pendaftaran = mysqli_query($mysqli, sprintf(
 					"insert into pendaftaran (

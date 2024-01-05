@@ -4,6 +4,81 @@ if (!defined("VER")) {
   exit("No direct script access allowed");
 }
 
+get("/rekmed", function () {
+  if (!is_login()) {
+    redirect_to("/user/login");
+  }
+
+  global $mysqli;
+  $errors = [];
+
+  $res = mysqli_query(
+    $mysqli,
+    "select a.id,
+      a.pendaftaran_id,
+      a.pasien_id,
+      a.anamnesa,
+      a.pemeriksaan,
+      a.diagnosa,
+      a.terapi,
+      a.biaya,
+      ( select b.keluhan 
+        from pendaftaran b
+        where b.id = a.pendaftaran_id
+          and b.pasien_id = a.pasien_id ) keluhan,
+      ( select b.nama
+        from pasien b
+        where b.id = a.pasien_id ) nama,
+      ( select b.jenkel
+        from pasien b
+        where b.id = a.pasien_id ) jenkel,
+      ( select b.lahir
+        from pasien b
+        where b.id = a.pasien_id ) lahir,
+      ( select b.alamat 
+        from pasien b
+        where b.id = a.pasien_id ) alamat
+      from rekmed a
+		"
+  );
+
+  if (mysqli_errno($mysqli)) {
+    $errors[] = mysqli_error($mysqli);
+  }
+
+  $rekmeds = [];
+
+  if ($res) {
+    if (mysqli_num_rows($res) > 0) {
+      while ($row = mysqli_fetch_assoc($res)) {
+        $rekmeds[] = [
+          "id" => $row["id"],
+          "pendaftaran_id" => $row["pendaftaran_id"],
+          "pasien_id" => $row["pasien_id"],
+          "anamnesa" => $row["anamnesa"],
+          "pemeriksaan" => $row["pemeriksaan"],
+          "diagnosa" => $row["diagnosa"],
+          "terapi" => $row["terapi"],
+          "biaya" => $row["biaya"],
+          "keluhan" => $row["keluhan"],
+          "nama" => $row["nama"],
+          "jenkel" => $row["jenkel"],
+          "lahir" => $row["lahir"],
+          "alamat" => $row["alamat"]
+        ];
+      }
+    }
+  }
+
+  return [
+    "view" => "rekmed_index",
+    "title" => "Rekam Medis List",
+    "menu" => "rekmed",
+    "errors" => $errors,
+    "rekmeds" => $rekmeds
+  ];
+});
+
 get("/rekmed/form", function () {
   if (!is_login()) {
     redirect_to("/user/login");
@@ -29,6 +104,75 @@ get("/rekmed/form", function () {
     "inputs" => $inputs,
     "errors" => $errors
   ];
+});
+
+get("/rekmed/edit/:id", function ($id) {
+  global $mysqli;
+
+  $inputs = [];
+  $errors = [];
+
+  $id = htmlentities(strip_tags(trim($id)));
+
+  $res = mysqli_query($mysqli, sprintf(
+    "select a.id,
+      a.pendaftaran_id,
+      a.pasien_id,
+      a.anamnesa,
+      a.pemeriksaan,
+      a.diagnosa,
+      a.terapi,
+      a.biaya,
+      ( select b.keluhan 
+        from pendaftaran b
+        where b.id = a.pendaftaran_id
+          and b.pasien_id = a.pasien_id ) keluhan,
+      ( select b.nama
+        from pasien b
+        where b.id = a.pasien_id ) nama,
+      ( select b.jenkel
+        from pasien b
+        where b.id = a.pasien_id ) jenkel,
+      ( select b.lahir
+        from pasien b
+        where b.id = a.pasien_id ) lahir,
+      ( select b.alamat 
+        from pasien b
+        where b.id = a.pasien_id ) alamat
+      from rekmed a 
+      where a.id = '%s'
+		",
+    mysqli_real_escape_string($mysqli, $id)
+  ));
+
+  if (mysqli_errno($mysqli)) {
+    $errors[] = mysqli_error($mysqli);
+  }
+
+  if ($res) {
+    if (mysqli_num_rows($res) == 1) {
+      if ($row = mysqli_fetch_assoc($res)) {
+        $inputs["id"] = $row["id"];
+        $inputs["pendaftaran_id"] = $row["pendaftaran_id"];
+        $inputs["pasien_id"] = $row["pasien_id"];
+        $inputs["anamnesa"] = $row["anamnesa"];
+        $inputs["pemeriksaan"] = $row["pemeriksaan"];
+        $inputs["diagnosa"] = $row["diagnosa"];
+        $inputs["terapi"] = $row["terapi"];
+        $inputs["biaya"] = $row["biaya"];
+        $inputs["keluhan"] = $row["keluhan"];
+        $inputs["nama"] = $row["nama"];
+        $inputs["jenkel"] = $row["jenkel"];
+        $inputs["lahir"] = $row["lahir"];
+        $inputs["alamat"] = $row["alamat"];
+      }
+    }
+  }
+
+  $_SESSION["inputs"] = $inputs;
+  $_SESSION["errors"] = $errors;
+
+  redirect_with("/rekmed/form");
 });
 
 get("/rekmed/pendaftaran/:id", function ($id) {
@@ -95,7 +239,6 @@ post("/rekmed/save", function () {
 
   $inputs = [];
   $errors = [];
-
 
   // rekam medis
 
@@ -198,31 +341,13 @@ post("/rekmed/save", function () {
       if ($is_new_rekmed) {
         $ret_rekmed = mysqli_query($mysqli, sprintf(
           "insert into rekmed (
-            id,
-            pendaftaran_id,
-            pasien_id,
-            anamnesa,
-            pemeriksaan,
-            diagnosa,
-            terapi,
-            biaya,
-            ins_id,
-            ins_dtm,
-            upd_id,
-            upd_dtm 
+            id, pendaftaran_id, pasien_id,
+            anamnesa, pemeriksaan, diagnosa, terapi, biaya,
+            ins_id, ins_dtm, upd_id, upd_dtm 
           ) values (
-            '%s',
-            '%s',
-            '%s',
-            '%s',
-            '%s',
-            '%s',
-            '%s',
-            %f,
-            '%s',
-            '%s',
-            '%s',
-            '%s'
+            '%s', '%s', '%s',
+            '%s', '%s', '%s', '%s', %f,
+            '%s', '%s', '%s', '%s'
           )
           ",
           mysqli_real_escape_string($mysqli, $inputs["id"]),
@@ -238,10 +363,73 @@ post("/rekmed/save", function () {
           mysqli_real_escape_string($mysqli, $_SESSION["username"]),
           mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s"))
         ));
+
+        if (mysqli_errno($mysqli)) {
+          $errors[] = mysqli_error($mysqli);
+        }
       } else {
+        $ret_rekmed = mysqli_query($mysqli, sprintf(
+          "update rekmed set anamnesa = '%s',
+            pemeriksaan = '%s',
+            diagnosa = '%s',
+            terapi = '%s',
+            biaya = %f,
+            upd_id = '%s',
+            upd_dtm = '%s'
+          where id = '%s'
+            and pendaftaran_id = '%s'
+            and pasien_id = '%s'
+          ",
+          mysqli_real_escape_string($mysqli, $inputs["anamnesa"]),
+          mysqli_real_escape_string($mysqli, $inputs["pemeriksaan"]),
+          mysqli_real_escape_string($mysqli, $inputs["diagnosa"]),
+          mysqli_real_escape_string($mysqli, $inputs["terapi"]),
+          mysqli_real_escape_string($mysqli, $inputs["biaya"]),
+          mysqli_real_escape_string($mysqli, $_SESSION["username"]),
+          mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s")),
+          mysqli_real_escape_string($mysqli, $inputs["id"]),
+          mysqli_real_escape_string($mysqli, $inputs["pendaftaran_id"]),
+          mysqli_real_escape_string($mysqli, $inputs["pasien_id"])
+        ));
+
+        if (mysqli_errno($mysqli)) {
+          $errors[] = mysqli_error($mysqli);
+        }
       }
 
-      if ($ret_rekmed) {
+      $ret_pendaftaran = mysqli_query($mysqli, sprintf(
+        "update pendaftaran set keluhan = '%s',
+          upd_id = '%s',
+          upd_dtm = '%s'
+          where id = '%s'
+            and pasien_id = '%s'
+        ",
+        mysqli_real_escape_string($mysqli, $inputs["keluhan"]),
+        mysqli_real_escape_string($mysqli, $_SESSION["username"]),
+        mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s")),
+        mysqli_real_escape_string($mysqli, $inputs["pendaftaran_id"]),
+        mysqli_real_escape_string($mysqli, $inputs["pasien_id"])
+      ));
+
+      if (mysqli_errno($mysqli)) {
+        $errors[] = mysqli_error($mysqli);
+      }
+
+      $ret_pasien = mysqli_query($mysqli, sprintf(
+        "update pasien 
+						set nama = '%s', jenkel = '%s', lahir='%s', alamat = '%s',
+							upd_id = '%s', upd_dtm = '%s'
+				 	where id = '%s'",
+        mysqli_real_escape_string($mysqli, $inputs["nama"]),
+        mysqli_real_escape_string($mysqli, $inputs["jenkel"]),
+        mysqli_real_escape_string($mysqli, $inputs["lahir"]),
+        mysqli_real_escape_string($mysqli, $inputs["alamat"]),
+        mysqli_real_escape_string($mysqli, $_SESSION["username"]),
+        mysqli_real_escape_string($mysqli, date("Y-m-d H:i:s")),
+        mysqli_real_escape_string($mysqli, $inputs["pasien_id"])
+      ));
+
+      if ($ret_rekmed && $ret_pendaftaran && $ret_pasien) {
         mysqli_commit($mysqli);
         flash("success", "Berhasil", "Data Rekam medis berhasil disimpan");
       } else {

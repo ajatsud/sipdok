@@ -70,7 +70,6 @@ post("/user/login/auth", function () {
 				$password_hash = $user["password"];
 				if (password_verify($inputs["password"], $password_hash)) {
 					$_SESSION["username"] = $inputs["username"];
-					flash("success", "Login Berhasil", "Selamat datang " . $inputs["username"]);
 					redirect_to("/dashboard");
 				} else {
 					$errors["password"] = "Password salah";
