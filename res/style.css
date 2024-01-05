@@ -610,9 +610,8 @@ tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
 
-th,
-td {
-    padding: 5px 10px;
+th, td {
+    padding: 10px;
 }
 
 .td-button-container {
