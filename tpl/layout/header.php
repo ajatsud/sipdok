@@ -35,7 +35,7 @@ if (!defined("VER")) {
 						<a <?= (isset($menu) && $menu == "dashboard") ? 'class="active"' : "" ?> href="/">Dashboard</a>
 						<a <?= (isset($menu) && $menu == "pasien") ? 'class="active"' : "" ?> href="/pasien">Pasien</a>
 						<a <?= (isset($menu) && $menu == "pendaftaran") ? 'class="active"' : "" ?> href="/pendaftaran">Pendaftaran</a>
-						<a <?= (isset($menu) && $menu == "rekmed") ? 'class="active"' : "" ?> href="/rekmed">Rekam Medis</a>
+						<a <?= (isset($menu) && $menu == "rekmed") ? 'class="active"' : "" ?> href="/rekmed">Rekmed</a>
 						<a <?= (isset($menu) && $menu == "logout") ? 'class="active"' : "" ?> href="/user/logout">Logout</a>
 					</div>
 				</div>

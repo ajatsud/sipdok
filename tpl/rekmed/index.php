@@ -32,7 +32,6 @@ if (!defined("VER")) {
               <th>Pemeriksaan</th>
               <th>Diagnosa</th>
               <th>Terapi</th>
-              <th>Biaya</th>
               <th>&nbsp;</th>
             </tr>
           </thead>
@@ -47,7 +46,6 @@ if (!defined("VER")) {
                 <td><?= $rekmed["pemeriksaan"] ?></td>
                 <td><?= $rekmed["diagnosa"] ?></td>
                 <td><?= $rekmed["terapi"] ?></td>
-                <td style="text-align: right;"><?= number_format($rekmed["biaya"]) ?></td>
                 <td class="td-button-container">
                   <a class="button button-warning" href="/rekmed/edit/<?= $rekmed["id"] ?>">Edit</a>
                   <a class="button button-danger" href="/rekmed/edit/<?= $rekmed["id"] ?>">Hapus</a>
